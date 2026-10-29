@@ -7,7 +7,7 @@
 
 export type PackageId = 'workout' | 'diet';
 export type PlanId = 'full' | 'monthly';
-export type PaymentMethodId = 'kbzpay' | 'wavepay' | 'ayapay' | 'cbpay';
+export type PaymentMethodId = 'kbzpay' | 'wavepay' | 'cbpay';
 
 export interface PremiumPackage {
   id: PackageId;
@@ -29,7 +29,6 @@ export interface PaymentMethod {
   id: PaymentMethodId;
   name: string;
   accountName: string;
-  /** TODO: replace with the real merchant wallet number before launch */
   accountNumber: string;
 }
 
@@ -76,10 +75,9 @@ export const PRICING_PLANS: Record<PlanId, PricingPlan> = {
 };
 
 export const PAYMENT_METHODS: PaymentMethod[] = [
-  { id: 'kbzpay', name: 'KBZPay', accountName: 'PulseFit', accountNumber: '09-XXX-XXX-XXX' },
-  { id: 'wavepay', name: 'WavePay', accountName: 'PulseFit', accountNumber: '09-XXX-XXX-XXX' },
-  { id: 'ayapay', name: 'AYA Pay', accountName: 'PulseFit', accountNumber: '09-XXX-XXX-XXX' },
-  { id: 'cbpay', name: 'CB Pay', accountName: 'PulseFit', accountNumber: '09-XXX-XXX-XXX' }
+  { id: 'kbzpay', name: 'KBZPay', accountName: 'PulseFit', accountNumber: '09-766-050-139' },
+  { id: 'wavepay', name: 'WavePay', accountName: 'PulseFit', accountNumber: '09-766-050-139' },
+  { id: 'cbpay', name: 'CB Pay', accountName: 'PulseFit', accountNumber: '09-766-050-139' }
 ];
 
 export const formatKs = (amount: number) => `${amount.toLocaleString('en-US')} Ks`;

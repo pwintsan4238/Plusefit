@@ -191,13 +191,13 @@ export const CheckoutModal: React.FC<Props> = ({ packageId, initialPlan = 'full'
             {/* Step 2: wallet */}
             <fieldset>
               <legend className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2.5">2. Pay with</legend>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-3 gap-2">
                 {PAYMENT_METHODS.map(m => {
                   const selected = m.id === methodId;
                   return (
                     <label
                       key={m.id}
-                      className={`flex items-center gap-2 min-h-12 px-3 rounded-xl border cursor-pointer text-sm font-bold transition-colors ${
+                      className={`flex items-center justify-center gap-1.5 min-h-12 px-2 rounded-xl border cursor-pointer text-sm font-bold whitespace-nowrap transition-colors ${
                         selected ? 'border-emerald-400 bg-emerald-400/10 text-white' : 'border-slate-700/60 bg-slate-800/40 text-slate-300 hover:border-slate-600'
                       }`}
                     >

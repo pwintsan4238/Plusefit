@@ -423,7 +423,7 @@ export default function App() {
         }}
       />
 
-      {/* Premium checkout (KBZPay / WavePay / AYA Pay / CB Pay transfer) */}
+      {/* Premium checkout (KBZPay / WavePay / CB Pay transfer) */}
       <CheckoutModal
         packageId={checkout?.packageId ?? null}
         initialPlan={checkout?.planId}
