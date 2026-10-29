@@ -9,7 +9,7 @@ import {
   ChevronDown,
   ChevronUp,
   ChefHat,
-  ShoppingBag,
+  Lock,
   PlusCircle,
   Play,
   Volume2,
@@ -24,7 +24,9 @@ interface Props {
   onClose: () => void;
   onToggleFavourite: (recipeId: string) => void;
   onAddToDiary: (entry: Omit<FoodDiaryEntry, 'id' | 'timeLogged'>) => void;
-  onAddIngredientsToShoppingList: (recipe: Recipe, servings: number) => void;
+  /** Cook Mode needs the Premium Diet package */
+  isCookModeLocked: boolean;
+  onUnlockCookMode: () => void;
 }
 
 export const RecipeDetailModal: React.FC<Props> = ({
@@ -33,7 +35,8 @@ export const RecipeDetailModal: React.FC<Props> = ({
   onClose,
   onToggleFavourite,
   onAddToDiary,
-  onAddIngredientsToShoppingList,
+  isCookModeLocked,
+  onUnlockCookMode,
 }) => {
   const [servings, setServings] = useState<number>(1);
   const [expandedIngredient, setExpandedIngredient] = useState<string | null>(null);
@@ -129,11 +132,6 @@ export const RecipeDetailModal: React.FC<Props> = ({
     showToast(`Added to ${selectedSlot} (${caloriesTotal} cals)!`);
   };
 
-  const handleAddShopping = () => {
-    onAddIngredientsToShoppingList(recipe, servings);
-    showToast(`Added ${recipe.ingredients.length} ingredients to Shopping List!`);
-  };
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
       <div className="relative w-full max-w-2xl max-h-[92vh] flex flex-col bg-slate-900 border border-slate-750 rounded-2xl shadow-2xl overflow-hidden text-slate-100">
@@ -179,7 +177,7 @@ export const RecipeDetailModal: React.FC<Props> = ({
               >
                 <Star className={`w-4 h-4 ${recipe.isFavourite ? 'fill-current' : ''}`} />
               </button>
-              <button
+              <button aria-label="Close"
                 onClick={onClose}
                 className="w-9 h-9 rounded-full bg-black/50 hover:bg-black/70 border border-white/10 text-white flex items-center justify-center transition-colors"
               >
@@ -218,13 +216,23 @@ export const RecipeDetailModal: React.FC<Props> = ({
                 <ChefHat className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-white">Hands-Free Cook Mode</p>
+                <p className="text-sm font-semibold text-white flex items-center gap-1.5">
+                  Hands-Free Cook Mode
+                  {isCookModeLocked && (
+                    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-amber-400/15 text-amber-400 text-xs font-bold">
+                      <Lock className="w-3 h-3" aria-hidden="true" /> Premium
+                    </span>
+                  )}
+                </p>
                 <p className="text-xs text-slate-400">Step-by-step view with smart kitchen timers & audio guidance</p>
               </div>
             </div>
             <button
-              onClick={() => setIsCookMode(!isCookMode)}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+              onClick={() => (isCookModeLocked ? onUnlockCookMode() : setIsCookMode(!isCookMode))}
+              role="switch"
+              aria-checked={isCookMode}
+              aria-label="Hands-Free Cook Mode"
+              className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors before:absolute before:-inset-2.5 before:content-[''] ${
                 isCookMode ? 'bg-amber-500' : 'bg-slate-700'
               }`}
             >
@@ -354,24 +362,24 @@ export const RecipeDetailModal: React.FC<Props> = ({
 
             <div className="grid grid-cols-4 gap-2 sm:gap-3">
               <div className="p-3 rounded-xl bg-slate-800/60 border border-slate-750 text-center">
-                <span className="text-[10px] font-semibold text-rose-400 uppercase tracking-wider block">Protein</span>
+                <span className="text-xs font-semibold text-rose-400 uppercase tracking-wider block">Protein</span>
                 <span className="text-lg font-bold text-white font-mono">{proteinTotal}g</span>
-                <span className="text-[10px] text-slate-400 block">({recipe.macrosPerServe.protein}g / serv)</span>
+                <span className="text-xs text-slate-400 block">({recipe.macrosPerServe.protein}g / serv)</span>
               </div>
               <div className="p-3 rounded-xl bg-slate-800/60 border border-slate-750 text-center">
-                <span className="text-[10px] font-semibold text-amber-400 uppercase tracking-wider block">Carbs</span>
+                <span className="text-xs font-semibold text-amber-400 uppercase tracking-wider block">Carbs</span>
                 <span className="text-lg font-bold text-white font-mono">{carbsTotal}g</span>
-                <span className="text-[10px] text-slate-400 block">({recipe.macrosPerServe.carbs}g / serv)</span>
+                <span className="text-xs text-slate-400 block">({recipe.macrosPerServe.carbs}g / serv)</span>
               </div>
               <div className="p-3 rounded-xl bg-slate-800/60 border border-slate-750 text-center">
-                <span className="text-[10px] font-semibold text-blue-400 uppercase tracking-wider block">Fat</span>
+                <span className="text-xs font-semibold text-blue-400 uppercase tracking-wider block">Fat</span>
                 <span className="text-lg font-bold text-white font-mono">{fatTotal}g</span>
-                <span className="text-[10px] text-slate-400 block">({recipe.macrosPerServe.fat}g / serv)</span>
+                <span className="text-xs text-slate-400 block">({recipe.macrosPerServe.fat}g / serv)</span>
               </div>
               <div className="p-3 rounded-xl bg-slate-800/60 border border-slate-750 text-center">
-                <span className="text-[10px] font-semibold text-emerald-400 uppercase tracking-wider block">Fibre</span>
+                <span className="text-xs font-semibold text-emerald-400 uppercase tracking-wider block">Fibre</span>
                 <span className="text-lg font-bold text-white font-mono">{fibreTotal}g</span>
-                <span className="text-[10px] text-slate-400 block">({recipe.macrosPerServe.fibre}g / serv)</span>
+                <span className="text-xs text-slate-400 block">({recipe.macrosPerServe.fibre}g / serv)</span>
               </div>
             </div>
           </div>
@@ -446,7 +454,7 @@ export const RecipeDetailModal: React.FC<Props> = ({
                                 : [...prev, ing.name]
                             );
                           }}
-                          className={`w-5 h-5 rounded-md flex items-center justify-center border transition-colors ${
+                          className={`relative before:absolute before:-inset-2 before:content-[''] shrink-0 w-5 h-5 rounded-md flex items-center justify-center border transition-colors ${
                             checkedIngredients.includes(ing.name)
                               ? 'bg-emerald-500 border-emerald-500 text-slate-950'
                               : 'border-slate-600 hover:border-slate-400'
@@ -459,7 +467,7 @@ export const RecipeDetailModal: React.FC<Props> = ({
                           <p className={`text-sm font-medium ${checkedIngredients.includes(ing.name) ? 'line-through text-slate-500' : 'text-white'}`}>
                             {ing.name}
                           </p>
-                          <span className="text-[11px] text-slate-500">{ing.category}</span>
+                          <span className="text-xs text-slate-500">{ing.category}</span>
                         </div>
                       </div>
 
@@ -512,7 +520,7 @@ export const RecipeDetailModal: React.FC<Props> = ({
                       <h4 className="text-sm font-semibold text-white">{step.title}</h4>
                       <p className="text-xs text-slate-300 leading-relaxed">{step.instruction}</p>
                       {step.chefTip && (
-                        <p className="text-[11px] text-amber-400/90 italic">Tip: {step.chefTip}</p>
+                        <p className="text-xs text-amber-400/90 italic">Tip: {step.chefTip}</p>
                       )}
                     </div>
                   </div>
@@ -523,15 +531,7 @@ export const RecipeDetailModal: React.FC<Props> = ({
         </div>
 
         {/* Action Footer */}
-        <div className="p-4 border-t border-slate-800 bg-slate-900/95 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <button
-            onClick={handleAddShopping}
-            className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white text-xs font-semibold flex items-center justify-center gap-2 transition-colors border border-slate-700"
-          >
-            <ShoppingBag className="w-4 h-4 text-emerald-400" />
-            Add Ingredients to Shopping List
-          </button>
-
+        <div className="p-4 border-t border-slate-800 bg-slate-900/95 flex flex-col sm:flex-row items-center justify-end gap-3">
           <div className="w-full sm:w-auto flex items-center gap-2">
             {showDiarySlotPicker ? (
               <div className="flex items-center gap-1.5 w-full">

@@ -31,10 +31,10 @@ export const FavouritesModal: React.FC<Props> = ({
             </div>
             <div>
               <h3 className="text-base font-bold text-white">Your Favourites</h3>
-              <p className="text-[11px] text-slate-400">Quick access to starred healthy recipes and planned meals</p>
+              <p className="text-xs text-slate-400">Quick access to starred healthy recipes and planned meals</p>
             </div>
           </div>
-          <button
+          <button aria-label="Close"
             onClick={onClose}
             className="w-8 h-8 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center"
           >
@@ -64,7 +64,7 @@ export const FavouritesModal: React.FC<Props> = ({
                 />
                 <div>
                   <h5 className="text-xs font-bold text-white line-clamp-1">{recipe.name}</h5>
-                  <div className="flex items-center gap-2 text-[11px] text-slate-400 mt-0.5">
+                  <div className="flex items-center gap-2 text-xs text-slate-400 mt-0.5">
                     <span className="flex items-center gap-1">
                       <Flame className="w-3 h-3 text-orange-400" />
                       {recipe.caloriesPerServe} cals

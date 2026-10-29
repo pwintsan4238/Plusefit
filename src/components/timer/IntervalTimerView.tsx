@@ -195,7 +195,7 @@ export const IntervalTimerView: React.FC<Props> = ({ onSessionComplete }) => {
                 <label className="text-xs font-bold uppercase tracking-wider text-slate-300">
                   Rounds Picker (10 – 50)
                 </label>
-                <p className="text-[11px] text-slate-400">Select total interval cycles</p>
+                <p className="text-xs text-slate-400">Select total interval cycles</p>
               </div>
               <span className="text-xl font-mono font-black text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-xl border border-emerald-500/20">
                 {rounds} Rounds
@@ -243,7 +243,7 @@ export const IntervalTimerView: React.FC<Props> = ({ onSessionComplete }) => {
                   <label className="text-xs font-bold uppercase tracking-wider text-emerald-400">
                     Active Time (Work)
                   </label>
-                  <p className="text-[11px] text-slate-400">High effort interval</p>
+                  <p className="text-xs text-slate-400">High effort interval</p>
                 </div>
                 <span className="text-lg font-mono font-bold text-white">
                   {activeSeconds}s
@@ -273,7 +273,7 @@ export const IntervalTimerView: React.FC<Props> = ({ onSessionComplete }) => {
                   <label className="text-xs font-bold uppercase tracking-wider text-cyan-400">
                     Recovery Time (Rest)
                   </label>
-                  <p className="text-[11px] text-slate-400">Catch breath & hydrate</p>
+                  <p className="text-xs text-slate-400">Catch breath & hydrate</p>
                 </div>
                 <span className="text-lg font-mono font-bold text-white">
                   {recoverySeconds}s

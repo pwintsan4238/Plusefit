@@ -53,7 +53,7 @@ export const MealPlannerModal: React.FC<Props> = ({
               </p>
             </div>
           </div>
-          <button
+          <button aria-label="Close"
             onClick={onClose}
             className="w-9 h-9 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors"
           >
@@ -74,7 +74,7 @@ export const MealPlannerModal: React.FC<Props> = ({
               }`}
             >
               <div className="text-xs font-semibold">{d.name}</div>
-              <div className="text-[11px] font-mono text-slate-400">{d.cals} kcal</div>
+              <div className="text-xs font-mono text-slate-400">{d.cals} kcal</div>
             </button>
           ))}
         </div>
@@ -125,7 +125,7 @@ export const MealPlannerModal: React.FC<Props> = ({
                     className="w-12 h-12 rounded-lg object-cover border border-slate-700"
                   />
                   <div>
-                    <span className="text-[10px] font-semibold uppercase tracking-wider text-amber-400">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-amber-400">
                       {meal.category}
                     </span>
                     <h5 className="text-sm font-semibold text-white">{meal.name}</h5>

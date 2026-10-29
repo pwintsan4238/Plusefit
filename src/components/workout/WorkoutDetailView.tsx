@@ -15,7 +15,8 @@ import {
   Zap,
   Volume2,
   Sparkles,
-  Trophy
+  Trophy,
+  Lock
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { playRoundStart, playCountdownPip, playSuccessChime } from '../../utils/audio';
@@ -23,11 +24,16 @@ import { playRoundStart, playCountdownPip, playSuccessChime } from '../../utils/
 interface Props {
   program: WorkoutProgram;
   onWorkoutCompleted: (caloriesBurned: number) => void;
+  /** Guided sessions need the Premium Workout package */
+  isGuidedSessionLocked: boolean;
+  onUnlockGuidedSession: () => void;
 }
 
 export const WorkoutDetailView: React.FC<Props> = ({
   program,
-  onWorkoutCompleted
+  onWorkoutCompleted,
+  isGuidedSessionLocked,
+  onUnlockGuidedSession
 }) => {
   const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
   const [isGuidedSessionActive, setIsGuidedSessionActive] = useState<boolean>(false);
@@ -176,19 +182,26 @@ export const WorkoutDetailView: React.FC<Props> = ({
           {/* Prompt requirement: Start Workout button for a guided session */}
           <div className="flex-shrink-0">
             <button
-              onClick={startGuidedSession}
+              onClick={isGuidedSessionLocked ? onUnlockGuidedSession : startGuidedSession}
               className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600 hover:from-rose-400 hover:to-pink-500 text-slate-950 font-black text-sm uppercase tracking-wider flex items-center justify-center gap-3 shadow-xl shadow-rose-500/30 transition-all hover:scale-105 active:scale-95 cursor-pointer"
             >
-              <Play className="w-5 h-5 fill-slate-950" />
+              {isGuidedSessionLocked
+                ? <Lock className="w-5 h-5" aria-hidden="true" />
+                : <Play className="w-5 h-5 fill-slate-950" aria-hidden="true" />}
               Start Workout
             </button>
+            {isGuidedSessionLocked && (
+              <p className="mt-2 text-xs text-rose-200/80 text-center sm:text-right">
+                Guided sessions are part of Premium Workout
+              </p>
+            )}
           </div>
         </div>
       </div>
 
       {/* Exercise List with Illustrations, Sets/Reps/Time, and Tap for Detail */}
       <div className="p-6 rounded-3xl bg-slate-900/90 border border-rose-500/20 shadow-xl space-y-4">
-        <div className="flex items-center justify-between border-b border-rose-500/20 pb-3">
+        <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2 border-b border-rose-500/20 pb-3">
           <div>
             <h2 className="text-lg font-black tracking-tight text-white flex items-center gap-2">
               Exercise Circuit ({program.exercises.length})
@@ -205,14 +218,15 @@ export const WorkoutDetailView: React.FC<Props> = ({
         {/* List of 10 Exercises */}
         <div className="space-y-3">
           {program.exercises.map((ex, index) => (
-            <div
+            <button
+              type="button"
               key={ex.id}
               onClick={() => setSelectedExercise(ex)}
-              className="group p-3.5 rounded-2xl bg-slate-800/40 hover:bg-rose-950/30 border border-slate-800 hover:border-rose-500/40 transition-all cursor-pointer flex items-center justify-between gap-4"
+              className="group w-full text-left p-3 sm:p-3.5 rounded-2xl bg-slate-800/40 hover:bg-rose-950/30 border border-slate-800 hover:border-rose-500/40 transition-colors cursor-pointer flex items-center justify-between gap-3 sm:gap-4"
             >
-              <div className="flex items-center gap-3.5">
+              <div className="flex items-center gap-3 sm:gap-3.5 min-w-0 flex-1">
                 {/* Index badge */}
-                <div className="w-7 h-7 rounded-lg bg-rose-500/10 text-rose-400 border border-rose-500/20 font-mono font-bold text-xs flex items-center justify-center flex-shrink-0">
+                <div className="hidden sm:flex w-7 h-7 rounded-lg bg-rose-500/10 text-rose-400 border border-rose-500/20 font-mono font-bold text-xs items-center justify-center flex-shrink-0">
                   {index + 1}
                 </div>
 
@@ -227,12 +241,17 @@ export const WorkoutDetailView: React.FC<Props> = ({
                 </div>
 
                 {/* Name & Primary Muscles */}
-                <div>
+                <div className="min-w-0">
                   <h3 className="text-sm font-bold text-white group-hover:text-rose-300 transition-colors">
+                    <span className="sm:hidden font-mono text-rose-400 mr-1.5">{index + 1}.</span>
                     {ex.name}
                   </h3>
+                  {/* On phones the sets/rest column moves under the name */}
+                  <p className="sm:hidden text-xs font-mono font-bold text-rose-400 mt-0.5">
+                    {ex.target} <span className="text-slate-400 font-normal">· Rest {ex.restSeconds}s</span>
+                  </p>
                   <div className="flex flex-wrap items-center gap-2 text-xs text-rose-200/60 mt-0.5">
-                    <span className="text-[11px] font-semibold text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded-md">
+                    <span className="text-xs font-semibold text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded-md">
                       {ex.category}
                     </span>
                     <span>{ex.primaryMuscles.join(', ')}</span>
@@ -242,20 +261,20 @@ export const WorkoutDetailView: React.FC<Props> = ({
 
               {/* Prompt Requirement: Sets and reps or time for each exercise (3 Sets x 15 Reps, 60 Sec Hold) */}
               <div className="flex items-center gap-4 flex-shrink-0">
-                <div className="text-right">
+                <div className="hidden sm:block text-right">
                   <span className="text-xs sm:text-sm font-black font-mono text-rose-400 block tracking-tight">
                     {ex.target}
                   </span>
-                  <span className="text-[10px] text-slate-400 uppercase tracking-wider block">
+                  <span className="text-xs text-slate-400 uppercase tracking-wider block">
                     Rest: {ex.restSeconds}s
                   </span>
                 </div>
 
                 <div className="w-8 h-8 rounded-xl bg-slate-800 group-hover:bg-rose-500/20 text-slate-400 group-hover:text-rose-300 flex items-center justify-center transition-colors">
-                  <ChevronRight className="w-4 h-4" />
+                  <ChevronRight className="w-4 h-4" aria-hidden="true" />
                 </div>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>
@@ -273,7 +292,7 @@ export const WorkoutDetailView: React.FC<Props> = ({
                   {program.title} • Exercise {currentExIndex + 1} of {program.exercises.length}
                 </span>
               </div>
-              <button
+              <button aria-label="Close"
                 onClick={() => setIsGuidedSessionActive(false)}
                 className="w-8 h-8 rounded-full bg-slate-900 text-slate-400 hover:text-white flex items-center justify-center"
               >
@@ -412,7 +431,7 @@ export const WorkoutDetailView: React.FC<Props> = ({
               <span className="text-xs font-bold uppercase tracking-wider text-rose-400">
                 Exercise Anatomy & Technique
               </span>
-              <button
+              <button aria-label="Close"
                 onClick={() => setSelectedExercise(null)}
                 className="w-8 h-8 rounded-full bg-slate-900 text-slate-400 hover:text-white flex items-center justify-center"
               >

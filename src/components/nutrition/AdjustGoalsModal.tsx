@@ -80,7 +80,7 @@ export const AdjustGoalsModal: React.FC<Props> = ({
               <p className="text-xs text-slate-400">Calibrate your daily calorie budget & target macros</p>
             </div>
           </div>
-          <button
+          <button aria-label="Close"
             onClick={onClose}
             className="w-8 h-8 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors"
           >
@@ -102,7 +102,7 @@ export const AdjustGoalsModal: React.FC<Props> = ({
                 className="p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-750 text-left transition-colors"
               >
                 <div className="text-xs font-bold text-white">Lean Cut</div>
-                <div className="text-[10px] text-slate-400">1,950 kcal • High Protein</div>
+                <div className="text-xs text-slate-400">1,950 kcal • High Protein</div>
               </button>
               <button
                 type="button"
@@ -110,7 +110,7 @@ export const AdjustGoalsModal: React.FC<Props> = ({
                 className="p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-750 text-left transition-colors"
               >
                 <div className="text-xs font-bold text-white">Maintenance</div>
-                <div className="text-[10px] text-slate-400">2,400 kcal • Balanced 40/30/30</div>
+                <div className="text-xs text-slate-400">2,400 kcal • Balanced 40/30/30</div>
               </button>
               <button
                 type="button"
@@ -118,7 +118,7 @@ export const AdjustGoalsModal: React.FC<Props> = ({
                 className="p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-750 text-left transition-colors"
               >
                 <div className="text-xs font-bold text-white">Hypertrophy Bulk</div>
-                <div className="text-[10px] text-slate-400">2,750 kcal • Heavy Fuel</div>
+                <div className="text-xs text-slate-400">2,750 kcal • Heavy Fuel</div>
               </button>
               <button
                 type="button"
@@ -126,7 +126,7 @@ export const AdjustGoalsModal: React.FC<Props> = ({
                 className="p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-750 text-left transition-colors"
               >
                 <div className="text-xs font-bold text-white">Keto / Low-Carb</div>
-                <div className="text-[10px] text-slate-400">2,100 kcal • High Fat</div>
+                <div className="text-xs text-slate-400">2,100 kcal • High Fat</div>
               </button>
             </div>
           </div>
@@ -160,44 +160,44 @@ export const AdjustGoalsModal: React.FC<Props> = ({
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
               <div className="p-3 rounded-xl bg-slate-800 border border-slate-700 space-y-1">
-                <span className="text-[10px] font-bold uppercase text-rose-400 block">Protein</span>
+                <span className="text-xs font-bold uppercase text-rose-400 block">Protein</span>
                 <input
                   type="number"
                   value={proteinGrams}
                   onChange={(e) => setProteinGrams(parseInt(e.target.value) || 0)}
                   className="w-full text-center bg-slate-900 border border-slate-700 rounded-lg py-1.5 text-sm font-mono font-bold text-white focus:outline-none focus:border-rose-400"
                 />
-                <span className="text-[10px] text-slate-400 text-center block">grams</span>
+                <span className="text-xs text-slate-400 text-center block">grams</span>
               </div>
               <div className="p-3 rounded-xl bg-slate-800 border border-slate-700 space-y-1">
-                <span className="text-[10px] font-bold uppercase text-amber-400 block">Carbs</span>
+                <span className="text-xs font-bold uppercase text-amber-400 block">Carbs</span>
                 <input
                   type="number"
                   value={carbsGrams}
                   onChange={(e) => setCarbsGrams(parseInt(e.target.value) || 0)}
                   className="w-full text-center bg-slate-900 border border-slate-700 rounded-lg py-1.5 text-sm font-mono font-bold text-white focus:outline-none focus:border-amber-400"
                 />
-                <span className="text-[10px] text-slate-400 text-center block">grams</span>
+                <span className="text-xs text-slate-400 text-center block">grams</span>
               </div>
               <div className="p-3 rounded-xl bg-slate-800 border border-slate-700 space-y-1">
-                <span className="text-[10px] font-bold uppercase text-cyan-400 block">Fat</span>
+                <span className="text-xs font-bold uppercase text-cyan-400 block">Fat</span>
                 <input
                   type="number"
                   value={fatGrams}
                   onChange={(e) => setFatGrams(parseInt(e.target.value) || 0)}
                   className="w-full text-center bg-slate-900 border border-slate-700 rounded-lg py-1.5 text-sm font-mono font-bold text-white focus:outline-none focus:border-cyan-400"
                 />
-                <span className="text-[10px] text-slate-400 text-center block">grams</span>
+                <span className="text-xs text-slate-400 text-center block">grams</span>
               </div>
               <div className="p-3 rounded-xl bg-slate-800 border border-slate-700 space-y-1">
-                <span className="text-[10px] font-bold uppercase text-emerald-400 block">Fibre</span>
+                <span className="text-xs font-bold uppercase text-emerald-400 block">Fibre</span>
                 <input
                   type="number"
                   value={fibreGrams}
                   onChange={(e) => setFibreGrams(parseInt(e.target.value) || 0)}
                   className="w-full text-center bg-slate-900 border border-slate-700 rounded-lg py-1.5 text-sm font-mono font-bold text-white focus:outline-none focus:border-emerald-400"
                 />
-                <span className="text-[10px] text-slate-400 text-center block">grams</span>
+                <span className="text-xs text-slate-400 text-center block">grams</span>
               </div>
             </div>
           </div>

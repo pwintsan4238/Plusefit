@@ -1,4 +1,4 @@
-import { Recipe, MealItem, WorkoutProgram, RunnerPosition, ShoppingItem } from '../types';
+import { Recipe, MealItem, WorkoutProgram, RunnerPosition } from '../types';
 
 export const INITIAL_CALORIE_BUDGET = {
   dailyTarget: 2400,
@@ -565,17 +565,4 @@ export const INITIAL_GROUP_RUNNERS: RunnerPosition[] = [
     status: 'Running',
     heartRate: 148
   }
-];
-
-export const INITIAL_SHOPPING_LIST: ShoppingItem[] = [
-  { id: 'shop-1', name: 'Wild Alaskan Salmon Fillet', amount: 180, unit: 'g', category: 'Protein', isChecked: false, sourceRecipe: 'Salmon & Quinoa' },
-  { id: 'shop-2', name: 'Tricolor Quinoa', amount: 150, unit: 'g', category: 'Pantry & Grains', isChecked: true, sourceRecipe: 'Salmon & Quinoa' },
-  { id: 'shop-3', name: 'Fresh Asparagus Spears', amount: 120, unit: 'g', category: 'Produce', isChecked: false, sourceRecipe: 'Salmon & Quinoa' },
-  { id: 'shop-4', name: 'Meyer Lemons', amount: 2, unit: 'whole', category: 'Produce', isChecked: false, sourceRecipe: 'Salmon & Quinoa' },
-  { id: 'shop-5', name: 'Fresh Organic Dill', amount: 20, unit: 'g', category: 'Produce', isChecked: false, sourceRecipe: 'Salmon & Quinoa' },
-  { id: 'shop-6', name: 'Haas Avocados', amount: 3, unit: 'whole', category: 'Produce', isChecked: true, sourceRecipe: 'Poached Egg Sourdough' },
-  { id: 'shop-7', name: 'Artisan Country Sourdough', amount: 1, unit: 'loaf', category: 'Pantry & Grains', isChecked: false, sourceRecipe: 'Poached Egg Sourdough' },
-  { id: 'shop-8', name: 'Pasture Raised Eggs (12-pack)', amount: 1, unit: 'carton', category: 'Dairy & Eggs', isChecked: false, sourceRecipe: 'Poached Egg Sourdough' },
-  { id: 'shop-9', name: 'Greek 0% Yogurt', amount: 500, unit: 'g', category: 'Dairy & Eggs', isChecked: false, sourceRecipe: 'Morning Snack' },
-  { id: 'shop-10', name: 'Ceremonial Matcha Powder', amount: 50, unit: 'g', category: 'Pantry & Grains', isChecked: false, sourceRecipe: 'Matcha Boost' }
 ];

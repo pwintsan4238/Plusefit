@@ -5,21 +5,21 @@ import {
   BookOpen,
   Dumbbell,
   Timer,
-  ShoppingBag,
+  Crown,
   Star,
   MapPin,
   Flame,
   Trophy,
-  Compass
+  Compass,
+  Zap
 } from 'lucide-react';
 
-export type ActiveTab = 'home' | 'map' | 'nutrition' | 'recipe' | 'workout' | 'timer';
+export type ActiveTab = 'home' | 'map' | 'nutrition' | 'recipe' | 'workout' | 'timer' | 'premium';
 
 interface Props {
   activeTab: ActiveTab;
   onTabChange: (tab: ActiveTab) => void;
-  shoppingCount: number;
-  onOpenShopping: () => void;
+  hasPremium: boolean;
   onOpenFavourites: () => void;
   pointsCount?: string;
   streakDays?: number;
@@ -28,19 +28,19 @@ interface Props {
 export const Navigation: React.FC<Props> = ({
   activeTab,
   onTabChange,
-  shoppingCount,
-  onOpenShopping,
+  hasPremium,
   onOpenFavourites,
   pointsCount = '124k',
   streakDays = 20
 }) => {
-  const navItems: { id: ActiveTab; label: string; icon: React.ReactNode; themeColor: string }[] = [
-    { id: 'home', label: 'Home', icon: <Home className="w-4 h-4" />, themeColor: 'text-emerald-400' },
-    { id: 'map', label: 'Live Map', icon: <Compass className="w-4 h-4" />, themeColor: 'text-emerald-400' },
-    { id: 'nutrition', label: 'Daily Nutrition', icon: <Utensils className="w-4 h-4" />, themeColor: 'text-slate-100' },
-    { id: 'recipe', label: 'Recipe Detail', icon: <BookOpen className="w-4 h-4" />, themeColor: 'text-amber-400' },
-    { id: 'workout', label: 'Abs Blaster', icon: <Dumbbell className="w-4 h-4" />, themeColor: 'text-rose-400' },
-    { id: 'timer', label: 'Interval Timer', icon: <Timer className="w-4 h-4" />, themeColor: 'text-emerald-400' },
+  // `label` is the full desktop name; `short` fits one line in the mobile bottom bar
+  const navItems: { id: ActiveTab; label: string; short: string; icon: React.ReactNode; themeColor: string }[] = [
+    { id: 'home', label: 'Home', short: 'Home', icon: <Home className="w-5 h-5" aria-hidden="true" />, themeColor: 'text-emerald-400' },
+    { id: 'map', label: 'Live Map', short: 'Run', icon: <Compass className="w-5 h-5" aria-hidden="true" />, themeColor: 'text-emerald-400' },
+    { id: 'nutrition', label: 'Daily Nutrition', short: 'Food', icon: <Utensils className="w-5 h-5" aria-hidden="true" />, themeColor: 'text-slate-100' },
+    { id: 'recipe', label: 'Recipes', short: 'Recipes', icon: <BookOpen className="w-5 h-5" aria-hidden="true" />, themeColor: 'text-amber-400' },
+    { id: 'workout', label: 'Abs Blaster', short: 'Workout', icon: <Dumbbell className="w-5 h-5" aria-hidden="true" />, themeColor: 'text-rose-400' },
+    { id: 'timer', label: 'Interval Timer', short: 'Timer', icon: <Timer className="w-5 h-5" aria-hidden="true" />, themeColor: 'text-emerald-400' },
   ];
 
   return (
@@ -50,34 +50,37 @@ export const Navigation: React.FC<Props> = ({
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
           
           {/* Logo Brand */}
-          <div
+          <button
+            type="button"
             onClick={() => onTabChange('home')}
-            className="flex items-center gap-2 cursor-pointer select-none group"
+            aria-label="PulseFit home"
+            className="flex items-center gap-2 shrink-0 cursor-pointer select-none group rounded-xl text-left"
           >
             <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-rose-500 p-0.5 shadow-lg group-hover:scale-105 transition-transform">
-              <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center font-black text-xs text-white">
-                P⚡N
+              <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center text-emerald-400">
+                <Zap className="w-4 h-4 fill-current" aria-hidden="true" />
               </div>
             </div>
             <div>
               <span className="font-black text-base tracking-tight text-white block leading-none">
                 PULSE<span className="text-emerald-400">FIT</span>
               </span>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-slate-400 block leading-none mt-0.5">
+              <span className="text-xs uppercase font-bold tracking-widest text-slate-400 block md:hidden xl:block whitespace-nowrap leading-none mt-0.5">
                 Nourish & Track
               </span>
             </div>
-          </div>
+          </button>
 
           {/* Desktop Nav Tabs */}
-          <nav className="hidden md:flex items-center gap-1 bg-slate-900/90 p-1 rounded-2xl border border-slate-800">
+          <nav aria-label="Main" className="hidden md:flex items-center gap-1 bg-slate-900/90 p-1 rounded-2xl border border-slate-800">
             {navItems.map(item => {
               const isActive = activeTab === item.id;
               return (
                 <button
                   key={item.id}
                   onClick={() => onTabChange(item.id)}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                  aria-current={isActive ? 'page' : undefined}
+                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-colors [&_svg]:w-4 [&_svg]:h-4 ${
                     isActive
                       ? item.id === 'workout'
                         ? 'bg-rose-500 text-slate-950 shadow-md shadow-rose-500/20'
@@ -94,16 +97,16 @@ export const Navigation: React.FC<Props> = ({
             })}
           </nav>
 
-          {/* Top Quick Badges: Streak, Points, Shopping, Favourites */}
+          {/* Top Quick Badges: Streak, Points, Favourites, Premium */}
           <div className="flex items-center gap-2">
             {/* Streak */}
-            <div className="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-xl bg-slate-900 border border-slate-800 text-xs font-bold text-orange-400">
+            <div className="hidden sm:flex md:hidden xl:flex items-center gap-1 px-2.5 py-1 rounded-xl bg-slate-900 border border-slate-800 text-xs font-bold text-orange-400">
               <Flame className="w-3.5 h-3.5 fill-current" />
               <span>{streakDays}</span>
             </div>
 
             {/* Points */}
-            <div className="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-xl bg-slate-900 border border-slate-800 text-xs font-mono font-bold text-emerald-400">
+            <div className="hidden sm:flex md:hidden xl:flex items-center gap-1 px-2.5 py-1 rounded-xl bg-slate-900 border border-slate-800 text-xs font-mono font-bold text-emerald-400">
               <Trophy className="w-3.5 h-3.5 text-emerald-400" />
               <span>{pointsCount}</span>
             </div>
@@ -111,53 +114,58 @@ export const Navigation: React.FC<Props> = ({
             {/* Favourites Button */}
             <button
               onClick={onOpenFavourites}
-              className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-amber-400 border border-slate-800 transition-colors"
+              aria-label="Favourites"
+              className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-amber-400 border border-slate-800 transition-colors"
               title="Favourites"
             >
               <Star className="w-4 h-4 text-amber-400" />
             </button>
 
-            {/* Shopping List Basket Button */}
+            {/* Premium packages */}
             <button
-              onClick={onOpenShopping}
-              className="relative p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 transition-colors"
-              title="Shopping List Basket"
+              onClick={() => onTabChange('premium')}
+              aria-current={activeTab === 'premium' ? 'page' : undefined}
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-black whitespace-nowrap transition-colors ${
+                hasPremium
+                  ? 'bg-slate-900 border border-amber-400/40 text-amber-400 hover:bg-slate-800'
+                  : 'bg-amber-400 text-slate-950 hover:bg-amber-300'
+              }`}
             >
-              <ShoppingBag className="w-4 h-4 text-emerald-400" />
-              {shoppingCount > 0 && (
-                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 text-slate-950 text-[10px] font-black flex items-center justify-center">
-                  {shoppingCount}
-                </span>
-              )}
+              <Crown className="w-4 h-4" aria-hidden="true" />
+              <span>{hasPremium ? 'Premium' : <><span className="hidden sm:inline">Go </span>Premium</>}</span>
             </button>
           </div>
         </div>
       </header>
 
       {/* Mobile Bottom Navigation Bar */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur-xl border-t border-slate-800 px-3 py-2 flex items-center justify-around">
+      <nav
+        aria-label="Main"
+        className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur-xl border-t border-slate-800 px-1 pt-1.5 pb-[max(0.375rem,env(safe-area-inset-bottom))] grid grid-cols-6"
+      >
         {navItems.map(item => {
           const isActive = activeTab === item.id;
           return (
             <button
               key={item.id}
               onClick={() => onTabChange(item.id)}
-              className={`flex flex-col items-center gap-1 p-1.5 rounded-xl transition-all ${
+              aria-current={isActive ? 'page' : undefined}
+              className={`flex flex-col items-center gap-0.5 min-h-12 py-1 rounded-xl transition-colors ${
                 isActive
                   ? item.id === 'workout'
                     ? 'text-rose-400 font-bold'
                     : 'text-emerald-400 font-bold'
-                  : 'text-slate-500 hover:text-slate-300'
+                  : 'text-slate-400 font-medium hover:text-slate-200'
               }`}
             >
-              <div className={`p-1 rounded-lg ${isActive ? 'bg-slate-800' : ''}`}>
+              <span className={`px-3 py-1 rounded-full transition-colors ${isActive ? 'bg-slate-800' : ''}`}>
                 {item.icon}
-              </div>
-              <span className="text-[10px] tracking-tight">{item.label}</span>
+              </span>
+              <span className="text-xs leading-tight whitespace-nowrap">{item.short}</span>
             </button>
           );
         })}
-      </div>
+      </nav>
     </>
   );
 };
