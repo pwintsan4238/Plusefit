@@ -1,0 +1,8 @@
+{
+  "name": "Remix PulseFit \u0026 Nourish",
+  "description": "Comprehensive fitness and nutrition tracking with daily calorie/macro budgets, interactive recipes with cook mode, pink workout programmes with guided timer, mint activity dashboard with live Bangkok Green Mile run tracker, and interval timer.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
