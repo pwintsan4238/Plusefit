@@ -91,7 +91,7 @@ export const CheckoutModal: React.FC<Props> = ({ packageId, initialPlan = 'full'
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-5 bg-black/80 backdrop-blur-sm" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-5 bg-ink/45 backdrop-blur-sm" onClick={onClose}>
       <div
         role="dialog"
         aria-modal="true"
@@ -102,11 +102,11 @@ export const CheckoutModal: React.FC<Props> = ({ packageId, initialPlan = 'full'
         {/* Header */}
         <div className="sticky top-0 z-10 flex items-start justify-between gap-4 p-5 border-b border-slate-800 bg-slate-900/95 backdrop-blur">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-amber-400/15 text-amber-400 flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-amber-400/15 text-amber-800 flex items-center justify-center shrink-0">
               <Crown className="w-5 h-5" aria-hidden="true" />
             </div>
             <div>
-              <h2 id="checkout-title" className="text-lg font-black text-white leading-tight">{pkg.name}</h2>
+              <h2 id="checkout-title" className="text-lg font-black text-slate-50 leading-tight">{pkg.name}</h2>
               <p className="text-xs text-slate-400">{pkg.tagline}</p>
             </div>
           </div>
@@ -114,7 +114,7 @@ export const CheckoutModal: React.FC<Props> = ({ packageId, initialPlan = 'full'
             type="button"
             aria-label="Close"
             onClick={onClose}
-            className="p-2.5 -m-1 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            className="p-2.5 -m-1 rounded-xl text-slate-400 hover:text-slate-50 hover:bg-slate-800 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -122,13 +122,13 @@ export const CheckoutModal: React.FC<Props> = ({ packageId, initialPlan = 'full'
 
         {submitted ? (
           <div className="p-6 text-center space-y-4" role="status">
-            <div className="w-14 h-14 mx-auto rounded-full bg-emerald-400/15 text-emerald-400 flex items-center justify-center">
+            <div className="w-14 h-14 mx-auto rounded-full bg-emerald-400/15 text-emerald-800 flex items-center justify-center">
               <Clock className="w-7 h-7" aria-hidden="true" />
             </div>
             <div className="space-y-1">
-              <h3 className="text-lg font-black text-white">Payment submitted</h3>
+              <h3 className="text-lg font-black text-slate-50">Payment submitted</h3>
               <p className="text-sm text-slate-300 leading-relaxed">
-                We're checking your {method.name} transfer of <strong className="text-white">{formatKs(plan.priceKs)}</strong>.
+                We're checking your {method.name} transfer of <strong className="text-slate-50">{formatKs(plan.priceKs)}</strong>.
                 {' '}{pkg.name} unlocks as soon as it's confirmed, usually within 24 hours.
               </p>
             </div>
@@ -136,7 +136,7 @@ export const CheckoutModal: React.FC<Props> = ({ packageId, initialPlan = 'full'
             <button
               type="button"
               onClick={onClose}
-              className="w-full py-3 rounded-2xl bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-black text-sm transition-colors"
+              className="w-full py-3 rounded-2xl bg-emerald-400 hover:bg-emerald-300 text-ink font-black text-sm transition-colors"
             >
               Done
             </button>
@@ -167,20 +167,20 @@ export const CheckoutModal: React.FC<Props> = ({ packageId, initialPlan = 'full'
                       <span
                         aria-hidden="true"
                         className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
-                          selected ? 'border-amber-400 bg-amber-400 text-slate-950' : 'border-slate-500'
+                          selected ? 'border-amber-400 bg-amber-400 text-ink' : 'border-slate-500'
                         }`}
                       >
                         {selected && <Check className="w-3 h-3" strokeWidth={3} />}
                       </span>
                       <span>
-                        <span className="block text-sm font-bold text-white">{p.name}</span>
+                        <span className="block text-sm font-bold text-slate-50">{p.name}</span>
                         <span className="block text-xs text-slate-400">
                           {p.id === 'full' ? 'Pay once, keep access' : 'Renew each month, cancel anytime'}
                         </span>
                       </span>
                     </span>
                     <span className="text-right shrink-0">
-                      <span className="block text-base font-black font-mono text-white">{formatKs(p.priceKs)}</span>
+                      <span className="block text-base font-black font-mono text-slate-50">{formatKs(p.priceKs)}</span>
                       <span className="block text-xs text-slate-400">{p.billing}</span>
                     </span>
                   </label>
@@ -198,7 +198,7 @@ export const CheckoutModal: React.FC<Props> = ({ packageId, initialPlan = 'full'
                     <label
                       key={m.id}
                       className={`flex items-center justify-center gap-1.5 min-h-12 px-2 rounded-xl border cursor-pointer text-sm font-bold whitespace-nowrap transition-colors ${
-                        selected ? 'border-emerald-400 bg-emerald-400/10 text-white' : 'border-slate-700/60 bg-slate-800/40 text-slate-300 hover:border-slate-600'
+                        selected ? 'border-emerald-400 bg-emerald-400/10 text-slate-50' : 'border-slate-700/60 bg-slate-800/40 text-slate-300 hover:border-slate-600'
                       }`}
                     >
                       <input
@@ -209,7 +209,7 @@ export const CheckoutModal: React.FC<Props> = ({ packageId, initialPlan = 'full'
                         onChange={() => setMethodId(m.id)}
                         className="sr-only"
                       />
-                      <Wallet className={`w-4 h-4 shrink-0 ${selected ? 'text-emerald-400' : 'text-slate-500'}`} aria-hidden="true" />
+                      <Wallet className={`w-4 h-4 shrink-0 ${selected ? 'text-emerald-700' : 'text-slate-500'}`} aria-hidden="true" />
                       {m.name}
                     </label>
                   );
@@ -223,19 +223,19 @@ export const CheckoutModal: React.FC<Props> = ({ packageId, initialPlan = 'full'
               <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
                 <div className="flex items-baseline justify-between gap-3">
                   <span className="text-sm text-slate-300">Amount</span>
-                  <span className="text-xl font-black font-mono text-amber-400">{formatKs(plan.priceKs)}</span>
+                  <span className="text-xl font-black font-mono text-amber-800">{formatKs(plan.priceKs)}</span>
                 </div>
                 <div className="flex items-center justify-between gap-3">
                   <div>
                     <span className="block text-xs text-slate-400">{method.name} · {method.accountName}</span>
-                    <span className="block text-base font-bold font-mono text-white">{method.accountNumber}</span>
+                    <span className="block text-base font-bold font-mono text-slate-50">{method.accountNumber}</span>
                   </div>
                   <button
                     type="button"
                     onClick={handleCopy}
                     className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 transition-colors"
                   >
-                    {copied ? <CheckCircle2 className="w-4 h-4 text-emerald-400" aria-hidden="true" /> : <Copy className="w-4 h-4" aria-hidden="true" />}
+                    {copied ? <CheckCircle2 className="w-4 h-4 text-emerald-700" aria-hidden="true" /> : <Copy className="w-4 h-4" aria-hidden="true" />}
                     {copied ? 'Copied' : 'Copy'}
                   </button>
                 </div>
@@ -247,7 +247,7 @@ export const CheckoutModal: React.FC<Props> = ({ packageId, initialPlan = 'full'
               <p className="text-xs font-bold uppercase tracking-wider text-slate-400">4. Confirm your payment</p>
               <div className="space-y-1.5">
                 <label htmlFor="txn-id" className="block text-sm font-semibold text-slate-200">
-                  Transaction ID <span className="text-rose-400" aria-hidden="true">*</span>
+                  Transaction ID <span className="text-rose-700" aria-hidden="true">*</span>
                 </label>
                 <input
                   id="txn-id"
@@ -258,19 +258,19 @@ export const CheckoutModal: React.FC<Props> = ({ packageId, initialPlan = 'full'
                   required
                   aria-invalid={!!errors.transactionId}
                   aria-describedby={errors.transactionId ? 'txn-id-error' : 'txn-id-help'}
-                  className={`w-full min-h-12 px-4 rounded-xl bg-slate-800 border text-white font-mono text-base focus:outline-none focus:border-emerald-400 ${
+                  className={`w-full min-h-12 px-4 rounded-xl bg-slate-800 border text-slate-50 font-mono text-base focus:outline-none focus:border-emerald-400 ${
                     errors.transactionId ? 'border-rose-500' : 'border-slate-700'
                   }`}
                 />
                 {errors.transactionId ? (
-                  <p id="txn-id-error" role="alert" className="text-xs text-rose-400">{errors.transactionId}</p>
+                  <p id="txn-id-error" role="alert" className="text-xs text-rose-700">{errors.transactionId}</p>
                 ) : (
                   <p id="txn-id-help" className="text-xs text-slate-400">Shown on the {method.name} receipt after you transfer.</p>
                 )}
               </div>
               <div className="space-y-1.5">
                 <label htmlFor="payer-phone" className="block text-sm font-semibold text-slate-200">
-                  Phone number you paid from <span className="text-rose-400" aria-hidden="true">*</span>
+                  Phone number you paid from <span className="text-rose-700" aria-hidden="true">*</span>
                 </label>
                 <input
                   id="payer-phone"
@@ -284,19 +284,19 @@ export const CheckoutModal: React.FC<Props> = ({ packageId, initialPlan = 'full'
                   required
                   aria-invalid={!!errors.payerPhone}
                   aria-describedby={errors.payerPhone ? 'payer-phone-error' : undefined}
-                  className={`w-full min-h-12 px-4 rounded-xl bg-slate-800 border text-white font-mono text-base focus:outline-none focus:border-emerald-400 ${
+                  className={`w-full min-h-12 px-4 rounded-xl bg-slate-800 border text-slate-50 font-mono text-base focus:outline-none focus:border-emerald-400 ${
                     errors.payerPhone ? 'border-rose-500' : 'border-slate-700'
                   }`}
                 />
                 {errors.payerPhone && (
-                  <p id="payer-phone-error" role="alert" className="text-xs text-rose-400">{errors.payerPhone}</p>
+                  <p id="payer-phone-error" role="alert" className="text-xs text-rose-700">{errors.payerPhone}</p>
                 )}
               </div>
             </div>
 
             <button
               type="submit"
-              className="w-full min-h-12 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-sm transition-colors"
+              className="w-full min-h-12 rounded-2xl bg-amber-400 hover:bg-amber-300 text-ink font-black text-sm transition-colors"
             >
               Submit payment · {formatKs(plan.priceKs)}
             </button>

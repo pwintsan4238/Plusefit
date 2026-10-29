@@ -274,7 +274,7 @@ export default function App() {
       <a
         href="#main"
         onClick={(e) => { e.preventDefault(); document.getElementById('main')?.focus(); }}
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:rounded-xl focus:bg-emerald-400 focus:text-slate-950 focus:font-bold"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:rounded-xl focus:bg-emerald-400 focus:text-ink focus:font-bold"
       >
         Skip to content
       </a>
@@ -333,10 +333,10 @@ export default function App() {
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-slate-900 border border-slate-800 rounded-2xl">
               <div>
-                <span className="text-xs font-bold text-amber-400 uppercase tracking-wider">
+                <span className="text-xs font-bold text-amber-800 uppercase tracking-wider">
                   Featured Chef Recipes
                 </span>
-                <h2 className="text-xl font-black text-white">Culinary Nutrition Lab</h2>
+                <h2 className="text-xl font-black text-slate-50">Culinary Nutrition Lab</h2>
               </div>
               <div className="flex flex-wrap gap-2">
                 {recipes.map(r => (
@@ -345,8 +345,8 @@ export default function App() {
                     onClick={() => setSelectedRecipeId(r.id)}
                     className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
                       selectedRecipeId === r.id
-                        ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
-                        : 'bg-slate-800 text-slate-300 hover:text-white'
+                        ? 'bg-amber-500 text-ink shadow-md shadow-amber-500/20'
+                        : 'bg-slate-800 text-slate-300 hover:text-slate-50'
                     }`}
                   >
                     {r.name.split(' ')[0]}

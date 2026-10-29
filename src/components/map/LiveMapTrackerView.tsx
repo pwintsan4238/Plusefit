@@ -117,11 +117,11 @@ export const LiveMapTrackerView: React.FC<Props> = ({
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto space-y-6 pb-24 text-emerald-50 selection:bg-emerald-500 selection:text-slate-950">
+    <div className="w-full max-w-4xl mx-auto space-y-6 pb-24 text-emerald-800 selection:bg-emerald-500 selection:text-ink">
       
       {/* Toast */}
       {toastMessage && (
-        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 px-4 py-2 bg-emerald-500 text-slate-950 font-bold text-xs rounded-full shadow-2xl flex items-center gap-2 animate-in slide-in-from-top-4 duration-200">
+        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 px-4 py-2 bg-emerald-500 text-ink font-bold text-xs rounded-full shadow-2xl flex items-center gap-2 animate-in slide-in-from-top-4 duration-200">
           <CheckCircle2 className="w-4 h-4" />
           {toastMessage}
         </div>
@@ -133,7 +133,7 @@ export const LiveMapTrackerView: React.FC<Props> = ({
 
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <span className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
+            <span className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-800 border border-emerald-500/30 flex items-center gap-1.5">
               <Navigation className="w-3.5 h-3.5 animate-pulse" />
               Live Group Run • 10 Runners
             </span>
@@ -141,24 +141,24 @@ export const LiveMapTrackerView: React.FC<Props> = ({
           </div>
 
           <div className="flex items-baseline gap-3">
-            <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+            <h1 className="text-3xl sm:text-4xl font-black text-slate-50 tracking-tight">
               {locationName}
             </h1>
-            <span className="text-2xl sm:text-3xl font-mono font-black text-emerald-400">
+            <span className="text-2xl sm:text-3xl font-mono font-black text-emerald-700">
               {distanceCoveredKm} km
             </span>
           </div>
 
           <div className="flex flex-wrap items-center gap-3 text-xs text-slate-300 font-mono">
             <span className="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">
-              Pace: <strong className="text-white">{currentPace}</strong>
+              Pace: <strong className="text-slate-50">{currentPace}</strong>
             </span>
             <span className="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">
-              Time: <strong className="text-white">{formatTime(elapsedSeconds)}</strong>
+              Time: <strong className="text-slate-50">{formatTime(elapsedSeconds)}</strong>
             </span>
             <span className="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700 flex items-center gap-1">
-              <Heart className="w-3.5 h-3.5 text-rose-400" />
-              <strong className="text-white">154 bpm</strong>
+              <Heart className="w-3.5 h-3.5 text-rose-700" />
+              <strong className="text-slate-50">154 bpm</strong>
             </span>
           </div>
         </div>
@@ -169,8 +169,8 @@ export const LiveMapTrackerView: React.FC<Props> = ({
             onClick={handleStartStopTracking}
             className={`px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-wider flex items-center justify-center gap-3 shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer ${
               isTracking
-                ? 'bg-rose-500 hover:bg-rose-400 text-slate-950 shadow-rose-500/30'
-                : 'bg-emerald-400 hover:bg-emerald-300 text-slate-950 shadow-emerald-500/30'
+                ? 'bg-rose-500 hover:bg-rose-400 text-ink shadow-rose-500/30'
+                : 'bg-emerald-400 hover:bg-emerald-300 text-ink shadow-emerald-500/30'
             }`}
           >
             {isTracking ? <Pause className="w-5 h-5 fill-current" /> : <Play className="w-5 h-5 fill-current" />}
@@ -183,12 +183,12 @@ export const LiveMapTrackerView: React.FC<Props> = ({
       <div className="p-4 sm:p-6 rounded-3xl bg-slate-900 border border-emerald-500/20 shadow-xl space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Compass className="w-4 h-4 text-emerald-400" />
-            <h2 className="text-sm font-bold uppercase tracking-wider text-white">
+            <Compass className="w-4 h-4 text-emerald-700" />
+            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-50">
               Bangkok Live Map: Green Mile & Parks Course
             </h2>
           </div>
-          <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-emerald-500/20">
+          <span className="text-xs font-mono text-emerald-800 bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-emerald-500/20">
             Lumphini ⇄ Benjakitti
           </span>
         </div>
@@ -215,48 +215,48 @@ export const LiveMapTrackerView: React.FC<Props> = ({
             {/* Lumphini Park Green Reserve (West) */}
             <path
               d="M 20,200 C 60,180 180,220 200,320 C 220,400 120,440 30,420 Z"
-              fill="#06281e"
+              fill="#bbf7d0"
               opacity="0.85"
             />
             {/* Lumphini Lake Water Body */}
-            <ellipse cx="110" cy="320" rx="55" ry="35" fill="#042028" />
-            <text x="75" y="325" fill="#34d399" fontSize="10" fontWeight="bold" opacity="0.8">Lumphini Lake</text>
+            <ellipse cx="110" cy="320" rx="55" ry="35" fill="#bae6fd" />
+            <text x="75" y="325" fill="#047857" fontSize="10" fontWeight="bold" opacity="0.8">Lumphini Lake</text>
 
             {/* Benjakitti Forest Park Wetlands & Lake (East) */}
             <path
               d="M 520,70 C 620,50 820,80 830,220 C 840,340 700,380 560,340 C 500,300 480,180 520,70 Z"
-              fill="#062d22"
+              fill="#bbf7d0"
               opacity="0.85"
             />
             {/* Benjakitti Lake Ratchada */}
-            <ellipse cx="710" cy="180" rx="60" ry="45" fill="#042028" />
-            <text x="660" y="185" fill="#34d399" fontSize="10" fontWeight="bold" opacity="0.8">Lake Ratchada</text>
+            <ellipse cx="710" cy="180" rx="60" ry="45" fill="#bae6fd" />
+            <text x="660" y="185" fill="#047857" fontSize="10" fontWeight="bold" opacity="0.8">Lake Ratchada</text>
 
             {/* Khlong Phai Singto Canal (runs across middle under Green Mile) */}
             <path
               d="M 260,380 C 330,300 400,240 480,190"
               fill="none"
-              stroke="#073847"
+              stroke="#7dd3fc"
               strokeWidth="12"
               strokeLinecap="round"
               opacity="0.7"
             />
-            <text x="330" y="320" fill="#38bdf8" fontSize="9" opacity="0.7" transform="rotate(-30 330,320)">Khlong Phai Singto Canal</text>
+            <text x="330" y="320" fill="#0369a1" fontSize="9" opacity="0.7" transform="rotate(-30 330,320)">Khlong Phai Singto Canal</text>
 
             {/* Bangkok City Street Grid lines (Wireless Rd, Rama IV, Sukhumvit, Ratchadaphisek) */}
             {[60, 120, 180, 240, 300, 360, 420].map(y => (
-              <line key={y} x1="0" y1={y} x2="850" y2={y} stroke="#1e293b" strokeWidth="1" strokeDasharray="6 6" opacity="0.35" />
+              <line key={y} x1="0" y1={y} x2="850" y2={y} stroke="#94a3b8" strokeWidth="1" strokeDasharray="6 6" opacity="0.35" />
             ))}
             {[100, 200, 300, 400, 500, 600, 700, 800].map(x => (
-              <line key={x} x1={x} y1="0" x2={x} y2="450" stroke="#1e293b" strokeWidth="1" strokeDasharray="6 6" opacity="0.35" />
+              <line key={x} x1={x} y1="0" x2={x} y2="450" stroke="#94a3b8" strokeWidth="1" strokeDasharray="6 6" opacity="0.35" />
             ))}
 
             {/* Bangkok Iconic Landmark Labels */}
-            <text x="40" y="180" fill="#94a3b8" fontSize="11" fontWeight="bold">สวนลุมพินี • Lumphini Park</text>
-            <text x="540" y="55" fill="#94a3b8" fontSize="11" fontWeight="bold">สวนเบญจกิติ • Benjakitti Forest Park</text>
-            <text x="340" y="170" fill="#10b981" fontSize="10" fontWeight="bold">The Green Mile (สะพานเขียว)</text>
-            <text x="650" y="270" fill="#64748b" fontSize="10">QSNCC National Convention Ctr</text>
-            <text x="180" y="440" fill="#64748b" fontSize="10">Rama IV Road Corridor</text>
+            <text x="40" y="180" fill="#334155" fontSize="11" fontWeight="bold">สวนลุมพินี • Lumphini Park</text>
+            <text x="540" y="55" fill="#334155" fontSize="11" fontWeight="bold">สวนเบญจกิติ • Benjakitti Forest Park</text>
+            <text x="340" y="170" fill="#047857" fontSize="10" fontWeight="bold">The Green Mile (สะพานเขียว)</text>
+            <text x="650" y="270" fill="#475569" fontSize="10">QSNCC National Convention Ctr</text>
+            <text x="180" y="440" fill="#475569" fontSize="10">Rama IV Road Corridor</text>
 
             {/* Highlighted Running Trail (The Elevated Green Mile: Lumphini ⇄ Benjakitti) */}
             <path
@@ -305,8 +305,8 @@ export const LiveMapTrackerView: React.FC<Props> = ({
                     cx="0"
                     cy="0"
                     r={runner.isCurrentUser ? '16' : '13'}
-                    fill={runner.isCurrentUser ? '#10b981' : '#0f172a'}
-                    stroke={runner.isCurrentUser ? '#ffffff' : '#34d399'}
+                    fill={runner.isCurrentUser ? '#10b981' : '#ffffff'}
+                    stroke={runner.isCurrentUser ? '#ffffff' : '#10b981'}
                     strokeWidth="2"
                   />
 
@@ -332,8 +332,8 @@ export const LiveMapTrackerView: React.FC<Props> = ({
                       width="88"
                       height="16"
                       rx="8"
-                      fill="#020617"
-                      stroke={runner.isCurrentUser ? '#10b981' : '#334155'}
+                      fill="#ffffff"
+                      stroke={runner.isCurrentUser ? '#10b981' : '#cbd5e1'}
                       strokeWidth="1"
                       opacity="0.95"
                     />
@@ -341,7 +341,7 @@ export const LiveMapTrackerView: React.FC<Props> = ({
                       x="0"
                       y="4"
                       textAnchor="middle"
-                      fill={runner.isCurrentUser ? '#34d399' : '#f8fafc'}
+                      fill={runner.isCurrentUser ? '#047857' : '#0f172a'}
                       fontSize="9"
                       fontWeight="bold"
                       fontFamily="sans-serif"
@@ -355,7 +355,7 @@ export const LiveMapTrackerView: React.FC<Props> = ({
           </svg>
 
           {/* Floating Live Telemetry Badge */}
-          <div className="absolute top-3 left-3 bg-slate-900/90 backdrop-blur-md border border-emerald-500/30 px-3 py-1.5 rounded-xl text-xs font-mono text-emerald-400 flex items-center gap-2">
+          <div className="absolute top-3 left-3 bg-slate-900/90 backdrop-blur-md border border-emerald-500/30 px-3 py-1.5 rounded-xl text-xs font-mono text-emerald-700 flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
             <span>LIVE GPS • Bangkok Green Mile (สวนลุมพินี ⇄ สวนเบญจกิติ)</span>
           </div>
@@ -369,7 +369,7 @@ export const LiveMapTrackerView: React.FC<Props> = ({
         <div className="space-y-3 pt-2">
           <div className="flex items-center justify-between">
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-              <Users className="w-4 h-4 text-emerald-400" />
+              <Users className="w-4 h-4 text-emerald-700" />
               Group Run Leaderboard ({runners.length} Runners)
             </h3>
             <span className="text-xs text-slate-400">Paceline average: 5'18" /km</span>
@@ -384,7 +384,7 @@ export const LiveMapTrackerView: React.FC<Props> = ({
                   onClick={() => setSelectedRunner(runner)}
                   className={`p-3 rounded-xl border transition-all flex items-center justify-between cursor-pointer ${
                     runner.isCurrentUser
-                      ? 'bg-emerald-500/10 border-emerald-500/40 text-white'
+                      ? 'bg-emerald-500/10 border-emerald-500/40 text-slate-50'
                       : 'bg-slate-800/40 hover:bg-slate-800/80 border-slate-800 text-slate-300'
                   }`}
                 >
@@ -398,10 +398,10 @@ export const LiveMapTrackerView: React.FC<Props> = ({
                       className="w-9 h-9 rounded-full object-cover border border-slate-700"
                     />
                     <div>
-                      <p className="text-xs font-bold text-white flex items-center gap-1">
+                      <p className="text-xs font-bold text-slate-50 flex items-center gap-1">
                         {runner.name}
                         {runner.isCurrentUser && (
-                          <span className="text-xs bg-emerald-500 text-slate-950 font-black px-1.5 py-0.2 rounded">
+                          <span className="text-xs bg-emerald-500 text-ink font-black px-1.5 py-0.2 rounded">
                             YOU
                           </span>
                         )}
@@ -413,7 +413,7 @@ export const LiveMapTrackerView: React.FC<Props> = ({
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-semibold px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-emerald-400">
+                    <span className="text-xs font-semibold px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-emerald-700">
                       {runner.status}
                     </span>
                     {!runner.isCurrentUser && (
@@ -425,8 +425,8 @@ export const LiveMapTrackerView: React.FC<Props> = ({
                         disabled={hasCheered}
                         className={`p-1.5 rounded-lg text-xs transition-colors ${
                           hasCheered
-                            ? 'bg-emerald-500 text-slate-950'
-                            : 'bg-slate-800 hover:bg-emerald-500/20 text-slate-300 hover:text-emerald-400'
+                            ? 'bg-emerald-500 text-ink'
+                            : 'bg-slate-800 hover:bg-emerald-500/20 text-slate-300 hover:text-emerald-800'
                         }`}
                         title="Send high five / cheer"
                       >
@@ -443,15 +443,15 @@ export const LiveMapTrackerView: React.FC<Props> = ({
 
       {/* Selected Runner Detail Modal */}
       {selectedRunner && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="relative w-full max-w-sm bg-slate-900 border border-emerald-500/40 rounded-3xl p-6 shadow-2xl space-y-4 text-emerald-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/45 backdrop-blur-md animate-in fade-in duration-200">
+          <div className="relative w-full max-w-sm bg-slate-900 border border-emerald-500/40 rounded-3xl p-6 shadow-2xl space-y-4 text-emerald-800">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">
+              <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">
                 Runner Telemetry
               </span>
               <button
                 onClick={() => setSelectedRunner(null)}
-                className="w-7 h-7 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center text-xs"
+                className="w-7 h-7 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-slate-50 flex items-center justify-center text-xs"
               >
                 ✕
               </button>
@@ -464,16 +464,16 @@ export const LiveMapTrackerView: React.FC<Props> = ({
                 className="w-16 h-16 rounded-2xl object-cover border-2 border-emerald-400/80 shadow-lg"
               />
               <div>
-                <h3 className="text-lg font-bold text-white flex items-center gap-1.5">
+                <h3 className="text-lg font-bold text-slate-50 flex items-center gap-1.5">
                   {selectedRunner.name}
                   {selectedRunner.isCurrentUser && (
-                    <span className="text-xs bg-emerald-500 text-slate-950 font-black px-1.5 py-0.5 rounded">
+                    <span className="text-xs bg-emerald-500 text-ink font-black px-1.5 py-0.5 rounded">
                       YOU
                     </span>
                   )}
                 </h3>
                 <span className="text-xs text-slate-400 block">Bangkok • Lumphini ⇄ Benjakitti Green Mile (สะพานเขียว)</span>
-                <span className="inline-block mt-1 text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                <span className="inline-block mt-1 text-xs font-semibold text-emerald-800 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
                   Status: {selectedRunner.status}
                 </span>
               </div>
@@ -482,15 +482,15 @@ export const LiveMapTrackerView: React.FC<Props> = ({
             <div className="grid grid-cols-3 gap-2 text-center">
               <div className="p-2.5 rounded-xl bg-slate-800/80 border border-slate-700">
                 <span className="text-xs text-slate-400 block">Distance</span>
-                <span className="text-sm font-mono font-bold text-white">{selectedRunner.distanceKm} km</span>
+                <span className="text-sm font-mono font-bold text-slate-50">{selectedRunner.distanceKm} km</span>
               </div>
               <div className="p-2.5 rounded-xl bg-slate-800/80 border border-slate-700">
                 <span className="text-xs text-slate-400 block">Current Pace</span>
-                <span className="text-sm font-mono font-bold text-emerald-400">{selectedRunner.pace}</span>
+                <span className="text-sm font-mono font-bold text-emerald-700">{selectedRunner.pace}</span>
               </div>
               <div className="p-2.5 rounded-xl bg-slate-800/80 border border-slate-700">
                 <span className="text-xs text-slate-400 block">Heart Rate</span>
-                <span className="text-sm font-mono font-bold text-rose-400">{selectedRunner.heartRate} bpm</span>
+                <span className="text-sm font-mono font-bold text-rose-700">{selectedRunner.heartRate} bpm</span>
               </div>
             </div>
 
@@ -500,7 +500,7 @@ export const LiveMapTrackerView: React.FC<Props> = ({
                   handleCheerRunner(selectedRunner);
                   setSelectedRunner(null);
                 }}
-                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 transition-all"
+                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-ink font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 transition-all"
               >
                 <Zap className="w-4 h-4 fill-current" />
                 Send Cheer & High-Five

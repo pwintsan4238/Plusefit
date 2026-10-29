@@ -174,20 +174,20 @@ export const AddFoodModal: React.FC<Props> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/45 backdrop-blur-md animate-in fade-in duration-200">
       <div className="relative w-full max-w-xl max-h-[88vh] flex flex-col bg-slate-900 border border-slate-750 rounded-2xl shadow-2xl overflow-hidden text-slate-100">
         
         {/* Header */}
         <div className="p-4 sm:p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/90">
           <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+            <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
               {category}
             </span>
-            <h2 className="text-lg font-bold text-white mt-1">Log Food Entry</h2>
+            <h2 className="text-lg font-bold text-slate-50 mt-1">Log Food Entry</h2>
           </div>
           <button aria-label="Close"
             onClick={onClose}
-            className="w-8 h-8 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors"
+            className="w-8 h-8 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-slate-50 flex items-center justify-center transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -199,8 +199,8 @@ export const AddFoodModal: React.FC<Props> = ({
             onClick={() => setActiveTab('quick')}
             className={`pb-2.5 px-3 text-xs font-bold border-b-2 transition-all ${
               activeTab === 'quick'
-                ? 'border-emerald-400 text-emerald-400'
-                : 'border-transparent text-slate-400 hover:text-white'
+                ? 'border-emerald-400 text-emerald-700'
+                : 'border-transparent text-slate-400 hover:text-slate-50'
             }`}
           >
             Quick Select Database
@@ -209,8 +209,8 @@ export const AddFoodModal: React.FC<Props> = ({
             onClick={() => setActiveTab('custom')}
             className={`pb-2.5 px-3 text-xs font-bold border-b-2 transition-all ${
               activeTab === 'custom'
-                ? 'border-emerald-400 text-emerald-400'
-                : 'border-transparent text-slate-400 hover:text-white'
+                ? 'border-emerald-400 text-emerald-700'
+                : 'border-transparent text-slate-400 hover:text-slate-50'
             }`}
           >
             Custom Food Entry
@@ -229,7 +229,7 @@ export const AddFoodModal: React.FC<Props> = ({
                   placeholder="Search foods (e.g., eggs, salmon, protein, oats)..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 text-xs bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+                  className="w-full pl-10 pr-4 py-2.5 text-xs bg-slate-800 border border-slate-700 rounded-xl text-slate-50 placeholder-slate-500 focus:outline-none focus:border-emerald-500"
                   autoFocus
                 />
               </div>
@@ -255,27 +255,27 @@ export const AddFoodModal: React.FC<Props> = ({
                         </div>
                       )}
                       <div>
-                        <h4 className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors">
+                        <h4 className="text-xs font-bold text-slate-50 group-hover:text-emerald-700 transition-colors">
                           {food.name}
                         </h4>
                         <p className="text-xs text-slate-400">
                           {food.portion}
                         </p>
                         <div className="flex items-center gap-2 text-xs font-mono text-slate-400 mt-0.5">
-                          <span className="text-rose-400">{food.macros.protein}g P</span>
+                          <span className="text-rose-700">{food.macros.protein}g P</span>
                           <span>•</span>
-                          <span className="text-amber-400">{food.macros.carbs}g C</span>
+                          <span className="text-amber-800">{food.macros.carbs}g C</span>
                           <span>•</span>
-                          <span className="text-cyan-400">{food.macros.fat}g F</span>
+                          <span className="text-cyan-700">{food.macros.fat}g F</span>
                         </div>
                       </div>
                     </div>
 
                     <div className="flex items-center gap-3 flex-shrink-0">
-                      <span className="text-xs font-mono font-bold text-white">
+                      <span className="text-xs font-mono font-bold text-slate-50">
                         {food.calories} cals
                       </span>
-                      <div className="w-7 h-7 rounded-lg bg-emerald-500/10 group-hover:bg-emerald-500 text-emerald-400 group-hover:text-slate-950 flex items-center justify-center transition-colors">
+                      <div className="w-7 h-7 rounded-lg bg-emerald-500/10 group-hover:bg-emerald-500 text-emerald-800 group-hover:text-ink flex items-center justify-center transition-colors">
                         <Plus className="w-4 h-4 stroke-[2.5]" />
                       </div>
                     </div>
@@ -300,7 +300,7 @@ export const AddFoodModal: React.FC<Props> = ({
                   placeholder="e.g. Homemade Turkey Chili"
                   value={customName}
                   onChange={(e) => setCustomName(e.target.value)}
-                  className="w-full px-3 py-2 text-xs bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+                  className="w-full px-3 py-2 text-xs bg-slate-800 border border-slate-700 rounded-xl text-slate-50 placeholder-slate-500 focus:outline-none focus:border-emerald-500"
                   required
                   autoFocus
                 />
@@ -316,7 +316,7 @@ export const AddFoodModal: React.FC<Props> = ({
                     placeholder="e.g. 1 bowl (300g)"
                     value={customPortion}
                     onChange={(e) => setCustomPortion(e.target.value)}
-                    className="w-full px-3 py-2 text-xs bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+                    className="w-full px-3 py-2 text-xs bg-slate-800 border border-slate-700 rounded-xl text-slate-50 placeholder-slate-500 focus:outline-none focus:border-emerald-500"
                   />
                 </div>
                 <div className="space-y-1">
@@ -327,7 +327,7 @@ export const AddFoodModal: React.FC<Props> = ({
                     type="number"
                     value={customCalories}
                     onChange={(e) => setCustomCalories(e.target.value)}
-                    className="w-full px-3 py-2 text-xs bg-slate-800 border border-slate-700 rounded-xl text-white font-mono focus:outline-none focus:border-emerald-500"
+                    className="w-full px-3 py-2 text-xs bg-slate-800 border border-slate-700 rounded-xl text-slate-50 font-mono focus:outline-none focus:border-emerald-500"
                     required
                   />
                 </div>
@@ -340,39 +340,39 @@ export const AddFoodModal: React.FC<Props> = ({
                 </label>
                 <div className="grid grid-cols-4 gap-2">
                   <div className="p-2.5 rounded-xl bg-slate-800 border border-slate-700 text-center space-y-1">
-                    <span className="text-xs font-bold uppercase text-rose-400 block">Protein</span>
+                    <span className="text-xs font-bold uppercase text-rose-700 block">Protein</span>
                     <input
                       type="number"
                       value={customProtein}
                       onChange={(e) => setCustomProtein(e.target.value)}
-                      className="w-full text-center bg-slate-900 border border-slate-700 rounded py-1 text-xs font-mono text-white focus:outline-none focus:border-rose-400"
+                      className="w-full text-center bg-slate-900 border border-slate-700 rounded py-1 text-xs font-mono text-slate-50 focus:outline-none focus:border-rose-400"
                     />
                   </div>
                   <div className="p-2.5 rounded-xl bg-slate-800 border border-slate-700 text-center space-y-1">
-                    <span className="text-xs font-bold uppercase text-amber-400 block">Carbs</span>
+                    <span className="text-xs font-bold uppercase text-amber-800 block">Carbs</span>
                     <input
                       type="number"
                       value={customCarbs}
                       onChange={(e) => setCustomCarbs(e.target.value)}
-                      className="w-full text-center bg-slate-900 border border-slate-700 rounded py-1 text-xs font-mono text-white focus:outline-none focus:border-amber-400"
+                      className="w-full text-center bg-slate-900 border border-slate-700 rounded py-1 text-xs font-mono text-slate-50 focus:outline-none focus:border-amber-400"
                     />
                   </div>
                   <div className="p-2.5 rounded-xl bg-slate-800 border border-slate-700 text-center space-y-1">
-                    <span className="text-xs font-bold uppercase text-cyan-400 block">Fat</span>
+                    <span className="text-xs font-bold uppercase text-cyan-700 block">Fat</span>
                     <input
                       type="number"
                       value={customFat}
                       onChange={(e) => setCustomFat(e.target.value)}
-                      className="w-full text-center bg-slate-900 border border-slate-700 rounded py-1 text-xs font-mono text-white focus:outline-none focus:border-cyan-400"
+                      className="w-full text-center bg-slate-900 border border-slate-700 rounded py-1 text-xs font-mono text-slate-50 focus:outline-none focus:border-cyan-400"
                     />
                   </div>
                   <div className="p-2.5 rounded-xl bg-slate-800 border border-slate-700 text-center space-y-1">
-                    <span className="text-xs font-bold uppercase text-emerald-400 block">Fibre</span>
+                    <span className="text-xs font-bold uppercase text-emerald-700 block">Fibre</span>
                     <input
                       type="number"
                       value={customFibre}
                       onChange={(e) => setCustomFibre(e.target.value)}
-                      className="w-full text-center bg-slate-900 border border-slate-700 rounded py-1 text-xs font-mono text-white focus:outline-none focus:border-emerald-400"
+                      className="w-full text-center bg-slate-900 border border-slate-700 rounded py-1 text-xs font-mono text-slate-50 focus:outline-none focus:border-emerald-400"
                     />
                   </div>
                 </div>
@@ -381,7 +381,7 @@ export const AddFoodModal: React.FC<Props> = ({
               <div className="pt-3">
                 <button
                   type="submit"
-                  className="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-500/20 transition-all"
+                  className="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-ink font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-500/20 transition-all"
                 >
                   Log Custom Food Entry
                 </button>
