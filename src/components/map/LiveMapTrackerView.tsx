@@ -401,19 +401,19 @@ export const LiveMapTrackerView: React.FC<Props> = ({
                       <p className="text-xs font-bold text-white flex items-center gap-1">
                         {runner.name}
                         {runner.isCurrentUser && (
-                          <span className="text-[10px] bg-emerald-500 text-slate-950 font-black px-1.5 py-0.2 rounded">
+                          <span className="text-xs bg-emerald-500 text-slate-950 font-black px-1.5 py-0.2 rounded">
                             YOU
                           </span>
                         )}
                       </p>
-                      <p className="text-[11px] font-mono text-slate-400">
+                      <p className="text-xs font-mono text-slate-400">
                         {runner.distanceKm} km • {runner.pace}
                       </p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-emerald-400">
+                    <span className="text-xs font-semibold px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-emerald-400">
                       {runner.status}
                     </span>
                     {!runner.isCurrentUser && (
@@ -467,13 +467,13 @@ export const LiveMapTrackerView: React.FC<Props> = ({
                 <h3 className="text-lg font-bold text-white flex items-center gap-1.5">
                   {selectedRunner.name}
                   {selectedRunner.isCurrentUser && (
-                    <span className="text-[10px] bg-emerald-500 text-slate-950 font-black px-1.5 py-0.5 rounded">
+                    <span className="text-xs bg-emerald-500 text-slate-950 font-black px-1.5 py-0.5 rounded">
                       YOU
                     </span>
                   )}
                 </h3>
                 <span className="text-xs text-slate-400 block">Bangkok • Lumphini ⇄ Benjakitti Green Mile (สะพานเขียว)</span>
-                <span className="inline-block mt-1 text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                <span className="inline-block mt-1 text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
                   Status: {selectedRunner.status}
                 </span>
               </div>
@@ -481,15 +481,15 @@ export const LiveMapTrackerView: React.FC<Props> = ({
 
             <div className="grid grid-cols-3 gap-2 text-center">
               <div className="p-2.5 rounded-xl bg-slate-800/80 border border-slate-700">
-                <span className="text-[10px] text-slate-400 block">Distance</span>
+                <span className="text-xs text-slate-400 block">Distance</span>
                 <span className="text-sm font-mono font-bold text-white">{selectedRunner.distanceKm} km</span>
               </div>
               <div className="p-2.5 rounded-xl bg-slate-800/80 border border-slate-700">
-                <span className="text-[10px] text-slate-400 block">Current Pace</span>
+                <span className="text-xs text-slate-400 block">Current Pace</span>
                 <span className="text-sm font-mono font-bold text-emerald-400">{selectedRunner.pace}</span>
               </div>
               <div className="p-2.5 rounded-xl bg-slate-800/80 border border-slate-700">
-                <span className="text-[10px] text-slate-400 block">Heart Rate</span>
+                <span className="text-xs text-slate-400 block">Heart Rate</span>
                 <span className="text-sm font-mono font-bold text-rose-400">{selectedRunner.heartRate} bpm</span>
               </div>
             </div>

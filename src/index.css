@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/* In-between slate shades used across components (not in Tailwind's default palette) */
+@theme {
+  --color-slate-750: #283548;
+  --color-slate-850: #172033;
+}
+
 @layer base {
   body {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
@@ -7,6 +13,35 @@
   
   code, pre, .font-mono {
     font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Numbers that change (timers, calories, macros) shouldn't jitter */
+  .font-mono {
+    font-variant-numeric: tabular-nums;
+  }
+
+  button, [role="button"], a, input, select, textarea, label {
+    touch-action: manipulation;
+  }
+
+  button:not(:disabled), [role="button"] {
+    cursor: pointer;
+  }
+
+  /* Visible keyboard focus everywhere (mouse clicks stay ring-free) */
+  :focus-visible {
+    outline: 2px solid #34d399;
+    outline-offset: 2px;
+    border-radius: 0.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 

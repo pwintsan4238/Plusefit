@@ -180,12 +180,12 @@ export const AddFoodModal: React.FC<Props> = ({
         {/* Header */}
         <div className="p-4 sm:p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/90">
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+            <span className="text-xs font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
               {category}
             </span>
             <h2 className="text-lg font-bold text-white mt-1">Log Food Entry</h2>
           </div>
-          <button
+          <button aria-label="Close"
             onClick={onClose}
             className="w-8 h-8 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors"
           >
@@ -258,10 +258,10 @@ export const AddFoodModal: React.FC<Props> = ({
                         <h4 className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors">
                           {food.name}
                         </h4>
-                        <p className="text-[11px] text-slate-400">
+                        <p className="text-xs text-slate-400">
                           {food.portion}
                         </p>
-                        <div className="flex items-center gap-2 text-[10px] font-mono text-slate-400 mt-0.5">
+                        <div className="flex items-center gap-2 text-xs font-mono text-slate-400 mt-0.5">
                           <span className="text-rose-400">{food.macros.protein}g P</span>
                           <span>•</span>
                           <span className="text-amber-400">{food.macros.carbs}g C</span>
@@ -340,7 +340,7 @@ export const AddFoodModal: React.FC<Props> = ({
                 </label>
                 <div className="grid grid-cols-4 gap-2">
                   <div className="p-2.5 rounded-xl bg-slate-800 border border-slate-700 text-center space-y-1">
-                    <span className="text-[10px] font-bold uppercase text-rose-400 block">Protein</span>
+                    <span className="text-xs font-bold uppercase text-rose-400 block">Protein</span>
                     <input
                       type="number"
                       value={customProtein}
@@ -349,7 +349,7 @@ export const AddFoodModal: React.FC<Props> = ({
                     />
                   </div>
                   <div className="p-2.5 rounded-xl bg-slate-800 border border-slate-700 text-center space-y-1">
-                    <span className="text-[10px] font-bold uppercase text-amber-400 block">Carbs</span>
+                    <span className="text-xs font-bold uppercase text-amber-400 block">Carbs</span>
                     <input
                       type="number"
                       value={customCarbs}
@@ -358,7 +358,7 @@ export const AddFoodModal: React.FC<Props> = ({
                     />
                   </div>
                   <div className="p-2.5 rounded-xl bg-slate-800 border border-slate-700 text-center space-y-1">
-                    <span className="text-[10px] font-bold uppercase text-cyan-400 block">Fat</span>
+                    <span className="text-xs font-bold uppercase text-cyan-400 block">Fat</span>
                     <input
                       type="number"
                       value={customFat}
@@ -367,7 +367,7 @@ export const AddFoodModal: React.FC<Props> = ({
                     />
                   </div>
                   <div className="p-2.5 rounded-xl bg-slate-800 border border-slate-700 text-center space-y-1">
-                    <span className="text-[10px] font-bold uppercase text-emerald-400 block">Fibre</span>
+                    <span className="text-xs font-bold uppercase text-emerald-400 block">Fibre</span>
                     <input
                       type="number"
                       value={customFibre}

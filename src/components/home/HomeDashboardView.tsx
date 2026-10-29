@@ -108,9 +108,9 @@ export const HomeDashboardView: React.FC<Props> = ({
             LVL 14
           </div>
           <div>
-            <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Club Rank</span>
+            <span className="text-xs uppercase font-bold text-slate-400 tracking-wider block">Club Rank</span>
             <span className="text-sm font-bold text-white block">Elite Tier #4</span>
-            <span className="text-[11px] font-mono text-emerald-400 block">+2,400 pts this week</span>
+            <span className="text-xs font-mono text-emerald-400 block">+2,400 pts this week</span>
           </div>
         </div>
       </div>
@@ -121,7 +121,7 @@ export const HomeDashboardView: React.FC<Props> = ({
 
         <div className="space-y-2 z-10">
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase tracking-wider bg-rose-500 text-slate-950">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-black uppercase tracking-wider bg-rose-500 text-slate-950">
               Today's Session
             </span>
             <span className="text-xs text-rose-300/80 font-mono">
@@ -173,7 +173,7 @@ export const HomeDashboardView: React.FC<Props> = ({
               style={{ width: `${calProgress}%` }}
             />
           </div>
-          <div className="text-[11px] font-mono text-emerald-400">
+          <div className="text-xs font-mono text-emerald-400">
             {calProgress}% of daily active target
           </div>
         </div>
@@ -202,7 +202,7 @@ export const HomeDashboardView: React.FC<Props> = ({
               style={{ width: `${stepProgress}%` }}
             />
           </div>
-          <div className="text-[11px] font-mono text-emerald-400">
+          <div className="text-xs font-mono text-emerald-400">
             {stepProgress}% completed (~6.5 km)
           </div>
         </div>
@@ -230,14 +230,14 @@ export const HomeDashboardView: React.FC<Props> = ({
               <button
                 key={idx}
                 onClick={() => setWaterGlasses(idx + 1)}
-                className={`h-5 flex-1 rounded transition-colors ${
+                className={`relative h-5 flex-1 rounded transition-colors before:absolute before:-inset-y-3 before:inset-x-0 before:content-[''] ${
                   idx < waterGlasses ? 'bg-cyan-400' : 'bg-slate-800'
                 }`}
                 title={`Log ${idx + 1} glasses`}
               />
             ))}
           </div>
-          <div className="text-[11px] font-mono text-cyan-400">
+          <div className="text-xs font-mono text-cyan-400">
             {(waterGlasses * 250)} ml of 2,000 ml target
           </div>
         </div>
@@ -263,7 +263,7 @@ export const HomeDashboardView: React.FC<Props> = ({
           <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
             <div className="h-full bg-emerald-500 w-4/5" />
           </div>
-          <div className="text-[11px] font-mono text-emerald-400">
+          <div className="text-xs font-mono text-emerald-400">
             Recovery score: 94% (High)
           </div>
         </div>

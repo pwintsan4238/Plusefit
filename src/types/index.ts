@@ -108,16 +108,6 @@ export interface RunnerPosition {
   heartRate: number;
 }
 
-export interface ShoppingItem {
-  id: string;
-  name: string;
-  amount: number;
-  unit: string;
-  category: string;
-  isChecked: boolean;
-  sourceRecipe?: string;
-}
-
 export interface IntervalTimerConfig {
   rounds: number;
   activeSeconds: number;

@@ -3,20 +3,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   INITIAL_CALORIE_BUDGET,
   DAILY_MEAL_PLAN,
   RECIPES_DATA,
   WORKOUT_PROGRAM_ABS_BLASTER,
-  INITIAL_GROUP_RUNNERS,
-  INITIAL_SHOPPING_LIST
+  INITIAL_GROUP_RUNNERS
 } from './data/mockData';
 import {
   MealItem,
   Recipe,
   FoodDiaryEntry,
-  ShoppingItem,
   RunnerPosition,
   MacroNutrients
 } from './types';
@@ -27,29 +25,50 @@ import { RecipeDetailModal } from './components/recipe/RecipeDetailModal';
 import { WorkoutDetailView } from './components/workout/WorkoutDetailView';
 import { LiveMapTrackerView } from './components/map/LiveMapTrackerView';
 import { IntervalTimerView } from './components/timer/IntervalTimerView';
-import { ShoppingListModal } from './components/shopping/ShoppingListModal';
 import { MealPlannerModal } from './components/planner/MealPlannerModal';
 import { FavouritesModal } from './components/favourites/FavouritesModal';
+import { PremiumView } from './components/premium/PremiumView';
+import { CheckoutModal } from './components/premium/CheckoutModal';
+import { usePersistentState } from './hooks/usePersistentState';
+import { PackageId, PlanId, Purchases, hasActiveAccess, activatePurchase } from './data/premium';
+
+const TABS: ActiveTab[] = ['home', 'map', 'nutrition', 'recipe', 'workout', 'timer', 'premium'];
+
+function readTabFromHash(): ActiveTab {
+  const hash = window.location.hash.slice(1) as ActiveTab;
+  return TABS.includes(hash) ? hash : 'nutrition';
+}
 
 export default function App() {
-  // Navigation active tab
-  const [activeTab, setActiveTab] = useState<ActiveTab>('nutrition');
+  // Navigation active tab, mirrored in the URL hash so refresh, Back and shared links keep the tab
+  const [activeTab, setActiveTab] = useState<ActiveTab>(readTabFromHash);
+
+  useEffect(() => {
+    const onHashChange = () => setActiveTab(readTabFromHash());
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
+
+  const goToTab = (tab: ActiveTab) => {
+    if (tab !== activeTab) window.location.hash = tab;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   // User Profile
-  const [userName, setUserName] = useState<string>('Jessica');
+  const [userName, setUserName] = usePersistentState<string>('userName', 'Jessica');
   const [pointsCount] = useState<string>('124k');
   const [streakDays] = useState<number>(20);
 
   // Nutrition & Budget State
-  const [dailyTarget, setDailyTarget] = useState<number>(2400);
-  const [macrosTotal, setMacrosTotal] = useState<MacroNutrients>(INITIAL_CALORIE_BUDGET.macrosTotal);
-  const [plannedMeals, setPlannedMeals] = useState<MealItem[]>(DAILY_MEAL_PLAN);
+  const [dailyTarget, setDailyTarget] = usePersistentState<number>('dailyTarget', 2400);
+  const [macrosTotal, setMacrosTotal] = usePersistentState<MacroNutrients>('macrosTotal', INITIAL_CALORIE_BUDGET.macrosTotal);
+  const [plannedMeals, setPlannedMeals] = usePersistentState<MealItem[]>('plannedMeals', DAILY_MEAL_PLAN);
 
   // Date index: 0 = Today, 1 = Yesterday, 2 = Tomorrow, 3 = Saturday, 4 = Sunday
   const [currentDateIndex, setCurrentDateIndex] = useState<number>(0);
 
   // Multi-day Diary Map
-  const [diaryByDay, setDiaryByDay] = useState<Record<number, FoodDiaryEntry[]>>({
+  const [diaryByDay, setDiaryByDay] = usePersistentState<Record<number, FoodDiaryEntry[]>>('diaryByDay', {
     0: [
       {
         id: 'diary-init-1',
@@ -87,17 +106,30 @@ export default function App() {
   });
 
   // Active Stats State
-  const [caloriesBurned, setCaloriesBurned] = useState<number>(640);
-  const [stepCount, setStepCount] = useState<number>(8420);
+  const [caloriesBurned, setCaloriesBurned] = usePersistentState<number>('caloriesBurned', 640);
+  const [stepCount, setStepCount] = usePersistentState<number>('stepCount', 8420);
 
-  // Recipes State
-  const [recipes, setRecipes] = useState<Recipe[]>(RECIPES_DATA);
+  // Recipes State (only favourite ids are saved, so recipe content stays in sync with mockData)
+  const [favouriteRecipeIds, setFavouriteRecipeIds] = usePersistentState<string[]>(
+    'favouriteRecipeIds',
+    () => RECIPES_DATA.filter(r => r.isFavourite).map(r => r.id)
+  );
+  const recipes: Recipe[] = RECIPES_DATA.map(r => ({ ...r, isFavourite: favouriteRecipeIds.includes(r.id) }));
   const [selectedRecipeId, setSelectedRecipeId] = useState<string>('recipe-salmon-quinoa');
   const [isRecipeModalOpen, setIsRecipeModalOpen] = useState<boolean>(false);
 
-  // Shopping List State
-  const [shoppingItems, setShoppingItems] = useState<ShoppingItem[]>(INITIAL_SHOPPING_LIST);
-  const [isShoppingOpen, setIsShoppingOpen] = useState<boolean>(false);
+  // Premium packages: purchases are saved locally; a payment stays 'pending' until it's verified
+  const [purchases, setPurchases] = usePersistentState<Purchases>('purchases', {});
+  const [checkout, setCheckout] = useState<{ packageId: PackageId; planId: PlanId } | null>(null);
+  const hasWorkoutPremium = hasActiveAccess(purchases.workout);
+  const hasDietPremium = hasActiveAccess(purchases.diet);
+
+  /** Runs `action` if the package is unlocked, otherwise opens checkout for it */
+  const requirePackage = (packageId: PackageId, action: () => void) => {
+    if (hasActiveAccess(purchases[packageId])) action();
+    else if (purchases[packageId]?.status === 'pending') goToTab('premium');
+    else setCheckout({ packageId, planId: 'full' });
+  };
 
   // Meal Planner & Favourites Modals
   const [isMealPlannerOpen, setIsMealPlannerOpen] = useState<boolean>(false);
@@ -221,55 +253,12 @@ export default function App() {
 
   // 8. Toggle favourite recipe
   const handleToggleFavouriteRecipe = (recipeId: string) => {
-    setRecipes(prev =>
-      prev.map(r => (r.id === recipeId ? { ...r, isFavourite: !r.isFavourite } : r))
+    setFavouriteRecipeIds(prev =>
+      prev.includes(recipeId) ? prev.filter(id => id !== recipeId) : [...prev, recipeId]
     );
   };
 
-  // 9. Add ingredients to shopping list
-  const handleAddIngredientsToShoppingList = (recipe: Recipe, servings: number) => {
-    const rescaleFactor = servings / (recipe.servings || 1);
-    const newItems: ShoppingItem[] = recipe.ingredients.map((ing, idx) => ({
-      id: `shop-${Date.now()}-${idx}`,
-      name: ing.name,
-      amount: parseFloat((ing.baseAmount * rescaleFactor).toFixed(1)),
-      unit: ing.unit,
-      category: ing.category,
-      isChecked: false,
-      sourceRecipe: recipe.name.split(' ')[0]
-    }));
-
-    setShoppingItems(prev => [...newItems, ...prev]);
-  };
-
-  // 10. Shopping list toggle & delete
-  const handleToggleShoppingItem = (id: string) => {
-    setShoppingItems(prev =>
-      prev.map(i => (i.id === id ? { ...i, isChecked: !i.isChecked } : i))
-    );
-  };
-
-  const handleDeleteShoppingItem = (id: string) => {
-    setShoppingItems(prev => prev.filter(i => i.id !== id));
-  };
-
-  const handleAddShoppingItem = (name: string, amount: number, unit: string, category: string) => {
-    const newItem: ShoppingItem = {
-      id: `shop-${Date.now()}`,
-      name,
-      amount,
-      unit,
-      category,
-      isChecked: false
-    };
-    setShoppingItems(prev => [newItem, ...prev]);
-  };
-
-  const handleClearCheckedShopping = () => {
-    setShoppingItems(prev => prev.filter(i => !i.isChecked));
-  };
-
-  // 11. Workout completion handler
+  // 9. Workout completion handler
   const handleWorkoutCompleted = (calsBurned: number) => {
     setCaloriesBurned(prev => prev + calsBurned);
   };
@@ -281,24 +270,27 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
-      
+    <div className="min-h-dvh bg-slate-950 text-slate-100 flex flex-col font-sans">
+      <a
+        href="#main"
+        onClick={(e) => { e.preventDefault(); document.getElementById('main')?.focus(); }}
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:rounded-xl focus:bg-emerald-400 focus:text-slate-950 focus:font-bold"
+      >
+        Skip to content
+      </a>
+
       {/* Universal Top Header & Responsive Bottom Bar */}
       <Navigation
         activeTab={activeTab}
-        onTabChange={(tab) => {
-          setActiveTab(tab);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
-        shoppingCount={shoppingItems.filter(i => !i.isChecked).length}
-        onOpenShopping={() => setIsShoppingOpen(true)}
+        onTabChange={goToTab}
+        hasPremium={hasWorkoutPremium || hasDietPremium}
         onOpenFavourites={() => setIsFavouritesOpen(true)}
         pointsCount={pointsCount}
         streakDays={streakDays}
       />
 
       {/* Main View Area with fluid transitions */}
-      <main className="flex-1 px-4 py-6 max-w-6xl mx-auto w-full">
+      <main id="main" tabIndex={-1} className="flex-1 px-4 pt-6 pb-28 md:pb-10 max-w-6xl mx-auto w-full focus:outline-none">
         {activeTab === 'home' && (
           <HomeDashboardView
             userName={userName}
@@ -309,10 +301,10 @@ export default function App() {
             stepCount={stepCount}
             stepTarget={10000}
             todayWorkout={WORKOUT_PROGRAM_ABS_BLASTER}
-            onStartTodayWorkout={() => setActiveTab('workout')}
-            onNavigateToLiveMap={() => setActiveTab('map')}
-            onNavigateToIntervalTimer={() => setActiveTab('timer')}
-            onNavigateToNutrition={() => setActiveTab('nutrition')}
+            onStartTodayWorkout={() => goToTab('workout')}
+            onNavigateToLiveMap={() => goToTab('map')}
+            onNavigateToIntervalTimer={() => goToTab('timer')}
+            onNavigateToNutrition={() => goToTab('nutrition')}
           />
         )}
 
@@ -325,8 +317,8 @@ export default function App() {
             onDateIndexChange={setCurrentDateIndex}
             onQuickAddPlannedMeal={handleQuickAddPlannedMeal}
             onTrackAllToDiary={handleTrackAllToDiary}
-            onOpenMealPlanner={() => setIsMealPlannerOpen(true)}
-            onOpenShoppingList={() => setIsShoppingOpen(true)}
+            onOpenMealPlanner={() => requirePackage('diet', () => setIsMealPlannerOpen(true))}
+            isMealPlannerLocked={!hasDietPremium}
             onOpenFavourites={() => setIsFavouritesOpen(true)}
             onSelectRecipe={handleSelectRecipe}
             onAddDiaryEntry={handleAddDiaryEntry}
@@ -368,10 +360,11 @@ export default function App() {
               <RecipeDetailModal
                 recipe={currentRecipe}
                 isOpen={true}
-                onClose={() => setActiveTab('nutrition')}
+                onClose={() => goToTab('nutrition')}
                 onToggleFavourite={handleToggleFavouriteRecipe}
                 onAddToDiary={handleAddDiaryEntry}
-                onAddIngredientsToShoppingList={handleAddIngredientsToShoppingList}
+                isCookModeLocked={!hasDietPremium}
+                onUnlockCookMode={() => requirePackage('diet', () => {})}
               />
             </div>
           </div>
@@ -381,6 +374,19 @@ export default function App() {
           <WorkoutDetailView
             program={WORKOUT_PROGRAM_ABS_BLASTER}
             onWorkoutCompleted={handleWorkoutCompleted}
+            isGuidedSessionLocked={!hasWorkoutPremium}
+            onUnlockGuidedSession={() => requirePackage('workout', () => {})}
+          />
+        )}
+
+        {activeTab === 'premium' && (
+          <PremiumView
+            purchases={purchases}
+            onBuy={(packageId, planId) => setCheckout({ packageId, planId })}
+            onDemoApprove={import.meta.env.DEV ? (packageId) => setPurchases(prev => {
+              const purchase = prev[packageId];
+              return purchase ? { ...prev, [packageId]: activatePurchase(purchase) } : prev;
+            }) : undefined}
           />
         )}
 
@@ -410,18 +416,19 @@ export default function App() {
         onClose={() => setIsRecipeModalOpen(false)}
         onToggleFavourite={handleToggleFavouriteRecipe}
         onAddToDiary={handleAddDiaryEntry}
-        onAddIngredientsToShoppingList={handleAddIngredientsToShoppingList}
+        isCookModeLocked={!hasDietPremium}
+        onUnlockCookMode={() => {
+          setIsRecipeModalOpen(false);
+          requirePackage('diet', () => {});
+        }}
       />
 
-      {/* Shopping List Modal */}
-      <ShoppingListModal
-        isOpen={isShoppingOpen}
-        onClose={() => setIsShoppingOpen(false)}
-        items={shoppingItems}
-        onToggleItem={handleToggleShoppingItem}
-        onDeleteItem={handleDeleteShoppingItem}
-        onAddItem={handleAddShoppingItem}
-        onClearChecked={handleClearCheckedShopping}
+      {/* Premium checkout (KBZPay / WavePay / CB Pay transfer) */}
+      <CheckoutModal
+        packageId={checkout?.packageId ?? null}
+        initialPlan={checkout?.planId}
+        onClose={() => setCheckout(null)}
+        onSubmit={(purchase) => setPurchases(prev => ({ ...prev, [purchase.packageId]: purchase }))}
       />
 
       {/* Meal Planner Modal */}

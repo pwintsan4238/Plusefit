@@ -6,7 +6,6 @@ import {
   Calendar,
   Plus,
   MoreHorizontal,
-  ShoppingBag,
   Star,
   Check,
   CheckCircle2,
@@ -17,7 +16,8 @@ import {
   Sparkles,
   Info,
   Sliders,
-  FileText
+  FileText,
+  Lock
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { AddFoodModal } from './AddFoodModal';
@@ -40,7 +40,8 @@ interface Props {
   onQuickAddPlannedMeal: (meal: MealItem) => void;
   onTrackAllToDiary: () => void;
   onOpenMealPlanner: () => void;
-  onOpenShoppingList: () => void;
+  /** Meal Planner needs the Premium Diet package */
+  isMealPlannerLocked: boolean;
   onOpenFavourites: () => void;
   onSelectRecipe: (recipeId: string) => void;
   onAddDiaryEntry: (entry: Omit<FoodDiaryEntry, 'id' | 'timeLogged'>) => void;
@@ -59,7 +60,7 @@ export const DailyNutritionView: React.FC<Props> = ({
   onQuickAddPlannedMeal,
   onTrackAllToDiary,
   onOpenMealPlanner,
-  onOpenShoppingList,
+  isMealPlannerLocked,
   onOpenFavourites,
   onSelectRecipe,
   onAddDiaryEntry,
@@ -136,7 +137,7 @@ export const DailyNutritionView: React.FC<Props> = ({
         </div>
       )}
 
-      {/* Top Header Bar: Date Switcher + Diary Options + Shopping Basket + Favourites */}
+      {/* Top Header Bar: Date Switcher + Diary Options + Favourites */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-4 rounded-2xl bg-slate-900 border border-slate-800 shadow-md">
         
         {/* Date switcher (‹ Today ›) with calendar modal */}
@@ -144,7 +145,7 @@ export const DailyNutritionView: React.FC<Props> = ({
           <button
             onClick={() => onDateIndexChange(Math.max(0, currentDateIndex - 1))}
             disabled={currentDateIndex === 0}
-            className="p-1 rounded-lg hover:bg-slate-700 text-slate-300 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
+            className="p-2.5 -m-1 rounded-lg hover:bg-slate-700 text-slate-300 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
             title="Previous Day"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -162,27 +163,18 @@ export const DailyNutritionView: React.FC<Props> = ({
           <button
             onClick={() => onDateIndexChange(Math.min(daysList.length - 1, currentDateIndex + 1))}
             disabled={currentDateIndex === daysList.length - 1}
-            className="p-1 rounded-lg hover:bg-slate-700 text-slate-300 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
+            className="p-2.5 -m-1 rounded-lg hover:bg-slate-700 text-slate-300 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
             title="Next Day"
           >
             <ChevronRight className="w-4 h-4" />
           </button>
         </div>
 
-        {/* Quick actions: Basket, Favourites, Menu (•••) */}
+        {/* Quick actions: Favourites, Menu (•••) */}
         <div className="flex items-center gap-2 relative">
           <button
-            onClick={onOpenShoppingList}
-            className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-750 border border-slate-700 text-slate-200 hover:text-white flex items-center gap-1.5 text-xs font-medium transition-colors"
-            title="Shopping List"
-          >
-            <ShoppingBag className="w-4 h-4 text-emerald-400" />
-            <span>Shopping</span>
-          </button>
-
-          <button
             onClick={onOpenFavourites}
-            className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-750 border border-slate-750 text-slate-200 hover:text-amber-400 flex items-center gap-1.5 text-xs font-medium transition-colors"
+            className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-750 border border-slate-700/60 text-slate-200 hover:text-amber-400 flex items-center gap-1.5 text-xs font-medium transition-colors"
             title="Favourites"
           >
             <Star className="w-4 h-4 text-amber-400" />
@@ -200,7 +192,7 @@ export const DailyNutritionView: React.FC<Props> = ({
             </button>
 
             {showDiaryMenu && (
-              <div className="absolute right-0 top-full mt-2 w-56 p-1.5 rounded-xl bg-slate-900 border border-slate-750 shadow-2xl z-40 text-xs space-y-1 animate-in fade-in duration-150">
+              <div className="absolute right-0 top-full mt-2 w-56 p-1.5 rounded-xl bg-slate-900 border border-slate-700/60 shadow-2xl z-40 text-xs space-y-1 animate-in fade-in duration-150">
                 <button
                   onClick={() => {
                     onCopyDay();
@@ -238,6 +230,7 @@ export const DailyNutritionView: React.FC<Props> = ({
                 >
                   <Utensils className="w-3.5 h-3.5 text-teal-400" />
                   Meal Planner Hub
+                  {isMealPlannerLocked && <Lock className="w-3.5 h-3.5 text-amber-400" aria-label="Premium" />}
                 </button>
                 <div className="my-1 border-t border-slate-800" />
                 <button
@@ -259,7 +252,7 @@ export const DailyNutritionView: React.FC<Props> = ({
 
       {/* Calendar picker popup */}
       {showCalendarPicker && (
-        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-750 shadow-xl grid grid-cols-2 sm:grid-cols-5 gap-2 animate-in fade-in duration-150">
+        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-700/60 shadow-xl grid grid-cols-2 sm:grid-cols-5 gap-2 animate-in fade-in duration-150">
           {daysList.map((d, idx) => (
             <button
               key={d.label}
@@ -274,7 +267,7 @@ export const DailyNutritionView: React.FC<Props> = ({
               }`}
             >
               <span className="text-xs font-bold block">{d.label}</span>
-              <span className="text-[11px] text-slate-400">{d.dateString}</span>
+              <span className="text-xs text-slate-400">{d.dateString}</span>
             </button>
           ))}
         </div>
@@ -336,7 +329,7 @@ export const DailyNutritionView: React.FC<Props> = ({
               <span className="text-xs font-semibold uppercase tracking-wider text-emerald-400 mt-0.5">
                 Calories Left
               </span>
-              <span className="text-[11px] text-slate-400 mt-1">
+              <span className="text-xs text-slate-400 mt-1">
                 {consumedCals} consumed
               </span>
             </div>
@@ -366,9 +359,10 @@ export const DailyNutritionView: React.FC<Props> = ({
               </div>
               <button
                 onClick={onOpenMealPlanner}
-                className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 flex items-center gap-1"
+                className="shrink-0 py-2.5 -my-2 text-xs font-semibold text-emerald-400 hover:text-emerald-300 flex items-center gap-1"
               >
                 <span>Meal Planner</span>
+                {isMealPlannerLocked && <Lock className="w-3.5 h-3.5 text-amber-400" aria-label="Premium" />}
                 <ArrowUpRight className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -377,10 +371,10 @@ export const DailyNutritionView: React.FC<Props> = ({
             <div className="grid grid-cols-2 gap-3 sm:gap-4">
               
               {/* Protein */}
-              <div className="p-3.5 rounded-xl bg-slate-800/50 border border-slate-750 space-y-2">
-                <div className="flex items-center justify-between">
+              <div className="p-3.5 rounded-xl bg-slate-800/50 border border-slate-700/60 space-y-2">
+                <div className="flex flex-wrap items-baseline justify-between gap-x-2 gap-y-0.5">
                   <span className="text-xs font-bold text-rose-400 uppercase tracking-wider">Protein</span>
-                  <span className="text-xs font-mono font-bold text-white">
+                  <span className="text-xs font-mono font-bold text-white whitespace-nowrap">
                     {calorieBudget.macrosLeft.protein}g left
                   </span>
                 </div>
@@ -392,17 +386,17 @@ export const DailyNutritionView: React.FC<Props> = ({
                     }}
                   />
                 </div>
-                <div className="flex items-center justify-between text-[11px] text-slate-400 font-mono">
+                <div className="flex items-center justify-between text-xs text-slate-400 font-mono">
                   <span>Target: {calorieBudget.macrosTotal.protein}g</span>
                   <span>{Math.round(((calorieBudget.macrosTotal.protein - calorieBudget.macrosLeft.protein) / calorieBudget.macrosTotal.protein) * 100)}%</span>
                 </div>
               </div>
 
               {/* Carbs */}
-              <div className="p-3.5 rounded-xl bg-slate-800/50 border border-slate-750 space-y-2">
-                <div className="flex items-center justify-between">
+              <div className="p-3.5 rounded-xl bg-slate-800/50 border border-slate-700/60 space-y-2">
+                <div className="flex flex-wrap items-baseline justify-between gap-x-2 gap-y-0.5">
                   <span className="text-xs font-bold text-amber-400 uppercase tracking-wider">Carbs</span>
-                  <span className="text-xs font-mono font-bold text-white">
+                  <span className="text-xs font-mono font-bold text-white whitespace-nowrap">
                     {calorieBudget.macrosLeft.carbs}g left
                   </span>
                 </div>
@@ -414,17 +408,17 @@ export const DailyNutritionView: React.FC<Props> = ({
                     }}
                   />
                 </div>
-                <div className="flex items-center justify-between text-[11px] text-slate-400 font-mono">
+                <div className="flex items-center justify-between text-xs text-slate-400 font-mono">
                   <span>Target: {calorieBudget.macrosTotal.carbs}g</span>
                   <span>{Math.round(((calorieBudget.macrosTotal.carbs - calorieBudget.macrosLeft.carbs) / calorieBudget.macrosTotal.carbs) * 100)}%</span>
                 </div>
               </div>
 
               {/* Fat */}
-              <div className="p-3.5 rounded-xl bg-slate-800/50 border border-slate-750 space-y-2">
-                <div className="flex items-center justify-between">
+              <div className="p-3.5 rounded-xl bg-slate-800/50 border border-slate-700/60 space-y-2">
+                <div className="flex flex-wrap items-baseline justify-between gap-x-2 gap-y-0.5">
                   <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider">Fat</span>
-                  <span className="text-xs font-mono font-bold text-white">
+                  <span className="text-xs font-mono font-bold text-white whitespace-nowrap">
                     {calorieBudget.macrosLeft.fat}g left
                   </span>
                 </div>
@@ -436,17 +430,17 @@ export const DailyNutritionView: React.FC<Props> = ({
                     }}
                   />
                 </div>
-                <div className="flex items-center justify-between text-[11px] text-slate-400 font-mono">
+                <div className="flex items-center justify-between text-xs text-slate-400 font-mono">
                   <span>Target: {calorieBudget.macrosTotal.fat}g</span>
                   <span>{Math.round(((calorieBudget.macrosTotal.fat - calorieBudget.macrosLeft.fat) / calorieBudget.macrosTotal.fat) * 100)}%</span>
                 </div>
               </div>
 
               {/* Fibre */}
-              <div className="p-3.5 rounded-xl bg-slate-800/50 border border-slate-750 space-y-2">
-                <div className="flex items-center justify-between">
+              <div className="p-3.5 rounded-xl bg-slate-800/50 border border-slate-700/60 space-y-2">
+                <div className="flex flex-wrap items-baseline justify-between gap-x-2 gap-y-0.5">
                   <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Fibre</span>
-                  <span className="text-xs font-mono font-bold text-white">
+                  <span className="text-xs font-mono font-bold text-white whitespace-nowrap">
                     {calorieBudget.macrosLeft.fibre}g left
                   </span>
                 </div>
@@ -458,7 +452,7 @@ export const DailyNutritionView: React.FC<Props> = ({
                     }}
                   />
                 </div>
-                <div className="flex items-center justify-between text-[11px] text-slate-400 font-mono">
+                <div className="flex items-center justify-between text-xs text-slate-400 font-mono">
                   <span>Target: {calorieBudget.macrosTotal.fibre}g</span>
                   <span>{Math.round(((calorieBudget.macrosTotal.fibre - calorieBudget.macrosLeft.fibre) / calorieBudget.macrosTotal.fibre) * 100)}%</span>
                 </div>
@@ -475,8 +469,9 @@ export const DailyNutritionView: React.FC<Props> = ({
             </span>
             <button
               onClick={onOpenMealPlanner}
-              className="text-xs font-bold text-emerald-400 hover:text-emerald-300 transition-colors"
+              className="py-2.5 -my-2 text-xs font-bold text-emerald-400 hover:text-emerald-300 transition-colors inline-flex items-center gap-1"
             >
+              {isMealPlannerLocked && <Lock className="w-3.5 h-3.5 text-amber-400" aria-label="Premium" />}
               Open Meal Planner →
             </button>
           </div>
@@ -534,7 +529,7 @@ export const DailyNutritionView: React.FC<Props> = ({
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-transparent to-black/30" />
                     
                     {/* Category badge */}
-                    <span className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-black/60 backdrop-blur-md text-amber-400 border border-white/10">
+                    <span className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-md text-xs font-bold uppercase tracking-wider bg-black/60 backdrop-blur-md text-amber-400 border border-white/10">
                       {meal.category}
                     </span>
 
@@ -559,7 +554,7 @@ export const DailyNutritionView: React.FC<Props> = ({
                         <Flame className="w-3.5 h-3.5 text-orange-400" />
                         {meal.calories} cals
                       </span>
-                      <span className="text-[11px] text-slate-300 bg-slate-900/70 px-1.5 py-0.5 rounded">
+                      <span className="text-xs text-slate-300 bg-slate-900/70 px-1.5 py-0.5 rounded">
                         {meal.prepTime}
                       </span>
                     </div>
@@ -575,7 +570,7 @@ export const DailyNutritionView: React.FC<Props> = ({
                     </h4>
                     
                     {/* Macros breakdown pill */}
-                    <div className="flex items-center gap-2 text-[11px] font-mono text-slate-400">
+                    <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
                       <span className="text-rose-400">{meal.macros.protein}g P</span>
                       <span>•</span>
                       <span className="text-amber-400">{meal.macros.carbs}g C</span>
@@ -591,14 +586,14 @@ export const DailyNutritionView: React.FC<Props> = ({
                 <div className="px-3.5 pb-3 pt-1 border-t border-slate-800/60 flex items-center justify-between text-xs">
                   <button
                     onClick={() => onSelectRecipe(meal.name.includes('Salmon') ? 'recipe-salmon-quinoa' : 'recipe-avocado-sourdough')}
-                    className="text-xs font-semibold text-slate-400 hover:text-white flex items-center gap-1 transition-colors"
+                    className="py-2.5 -my-2 text-xs font-semibold text-slate-400 hover:text-white flex items-center gap-1 transition-colors"
                   >
                     View Recipe
                     <ArrowUpRight className="w-3 h-3" />
                   </button>
                   <button
                     onClick={() => handleQuickAdd(meal)}
-                    className="text-xs font-bold text-emerald-400 hover:text-emerald-300 flex items-center gap-1"
+                    className="py-2.5 px-2 -my-2 -mr-2 text-xs font-bold text-emerald-400 hover:text-emerald-300 flex items-center gap-1"
                   >
                     {isAlreadyTracked ? 'Log Again' : '+ Log'}
                   </button>
@@ -676,7 +671,7 @@ export const DailyNutritionView: React.FC<Props> = ({
                           )}
                           <div>
                             <p className="font-semibold text-white">{entry.name}</p>
-                            <p className="text-[10px] text-slate-400">
+                            <p className="text-xs text-slate-400">
                               {entry.portion} • {entry.timeLogged}
                             </p>
                           </div>
@@ -688,7 +683,7 @@ export const DailyNutritionView: React.FC<Props> = ({
                           </span>
                           <button
                             onClick={() => onDeleteDiaryEntry(entry.id)}
-                            className="text-slate-500 hover:text-rose-400 p-1 transition-colors"
+                            className="relative before:absolute before:-inset-2 before:content-[''] text-slate-400 hover:text-rose-400 p-1 transition-colors"
                             title="Delete entry"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -698,7 +693,7 @@ export const DailyNutritionView: React.FC<Props> = ({
                     ))}
                   </div>
                 ) : (
-                  <p className="text-[11px] text-slate-500 italic pl-1">
+                  <p className="text-xs text-slate-500 italic pl-1">
                     No items tracked yet for {cat}. Tap + Add to log.
                   </p>
                 )}
