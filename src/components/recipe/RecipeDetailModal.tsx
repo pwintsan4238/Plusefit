@@ -133,12 +133,12 @@ export const RecipeDetailModal: React.FC<Props> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-ink/45 backdrop-blur-md animate-in fade-in duration-200">
       <div className="relative w-full max-w-2xl max-h-[92vh] flex flex-col bg-slate-900 border border-slate-750 rounded-2xl shadow-2xl overflow-hidden text-slate-100">
         
         {/* Toast alert */}
         {toastMessage && (
-          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-50 px-4 py-2 bg-emerald-500 text-slate-950 font-semibold text-xs rounded-full shadow-lg flex items-center gap-1.5 animate-in slide-in-from-top-3 duration-200">
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-50 px-4 py-2 bg-emerald-500 text-ink font-semibold text-xs rounded-full shadow-lg flex items-center gap-1.5 animate-in slide-in-from-top-3 duration-200">
             <CheckCircle2 className="w-4 h-4" />
             {toastMessage}
           </div>
@@ -157,7 +157,7 @@ export const RecipeDetailModal: React.FC<Props> = ({
           <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10">
             <div className="flex items-center gap-2">
               <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-black/50 backdrop-blur-md border border-white/10 text-white flex items-center gap-1">
-                <ChefHat className="w-3.5 h-3.5 text-amber-400" />
+                <ChefHat className="w-3.5 h-3.5 text-amber-800" />
                 {recipe.difficulty}
               </span>
               <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-black/50 backdrop-blur-md border border-white/10 text-emerald-400">
@@ -170,7 +170,7 @@ export const RecipeDetailModal: React.FC<Props> = ({
                 onClick={() => onToggleFavourite(recipe.id)}
                 className={`w-9 h-9 rounded-full flex items-center justify-center backdrop-blur-md border transition-all ${
                   recipe.isFavourite
-                    ? 'bg-amber-500 border-amber-400 text-slate-950 shadow-lg shadow-amber-500/20'
+                    ? 'bg-amber-500 border-amber-400 text-ink shadow-lg shadow-amber-500/20'
                     : 'bg-black/50 border-white/10 text-white hover:bg-black/70'
                 }`}
                 title="Favourite recipe"
@@ -188,17 +188,17 @@ export const RecipeDetailModal: React.FC<Props> = ({
 
           {/* Recipe Title & Key Stats in Header */}
           <div className="absolute bottom-4 left-4 right-4 space-y-2">
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white leading-tight drop-shadow-md">
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-50 leading-tight drop-shadow-md">
               {recipe.name}
             </h1>
             <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm text-slate-300">
-              <div className="flex items-center gap-1.5 font-medium bg-slate-900/80 px-2.5 py-1 rounded-lg backdrop-blur-md border border-white/5">
-                <Flame className="w-4 h-4 text-orange-400" />
-                <span className="font-bold text-white">{recipe.caloriesPerServe}</span> cals / serve
+              <div className="flex items-center gap-1.5 font-medium bg-slate-900/80 px-2.5 py-1 rounded-lg backdrop-blur-md border border-slate-700/60">
+                <Flame className="w-4 h-4 text-orange-800" />
+                <span className="font-bold text-slate-50">{recipe.caloriesPerServe}</span> cals / serve
               </div>
-              <div className="flex items-center gap-1.5 font-medium bg-slate-900/80 px-2.5 py-1 rounded-lg backdrop-blur-md border border-white/5">
-                <Clock className="w-4 h-4 text-cyan-400" />
-                <span>Cook: <strong className="text-white">{recipe.cookTime}</strong> (Prep {recipe.prepTime})</span>
+              <div className="flex items-center gap-1.5 font-medium bg-slate-900/80 px-2.5 py-1 rounded-lg backdrop-blur-md border border-slate-700/60">
+                <Clock className="w-4 h-4 text-cyan-700" />
+                <span>Cook: <strong className="text-slate-50">{recipe.cookTime}</strong> (Prep {recipe.prepTime})</span>
               </div>
             </div>
           </div>
@@ -211,15 +211,15 @@ export const RecipeDetailModal: React.FC<Props> = ({
           <div className="flex items-center justify-between p-3.5 rounded-xl bg-slate-800/80 border border-slate-700">
             <div className="flex items-center gap-2.5">
               <div className={`w-9 h-9 rounded-lg flex items-center justify-center transition-colors ${
-                isCookMode ? 'bg-amber-500 text-slate-950' : 'bg-slate-700 text-slate-300'
+                isCookMode ? 'bg-amber-500 text-ink' : 'bg-slate-700 text-slate-300'
               }`}>
                 <ChefHat className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-white flex items-center gap-1.5">
+                <p className="text-sm font-semibold text-slate-50 flex items-center gap-1.5">
                   Hands-Free Cook Mode
                   {isCookModeLocked && (
-                    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-amber-400/15 text-amber-400 text-xs font-bold">
+                    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-amber-400/15 text-amber-800 text-xs font-bold">
                       <Lock className="w-3 h-3" aria-hidden="true" /> Premium
                     </span>
                   )}
@@ -248,30 +248,30 @@ export const RecipeDetailModal: React.FC<Props> = ({
           {isCookMode ? (
             <div className="space-y-4 p-4 rounded-xl bg-gradient-to-b from-amber-500/10 via-slate-800/60 to-slate-900 border border-amber-500/30">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1">
+                <span className="text-xs font-bold text-amber-800 uppercase tracking-wider flex items-center gap-1">
                   Step {activeStepIndex + 1} of {recipe.steps.length}
                 </span>
                 <div className="flex items-center gap-1.5">
                   <button
                     onClick={() => handleSpeakStep(recipe.steps[activeStepIndex].instruction)}
-                    className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs flex items-center gap-1"
+                    className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-slate-50 text-xs flex items-center gap-1"
                     title="Read aloud"
                   >
-                    <Volume2 className="w-3.5 h-3.5 text-cyan-400" />
+                    <Volume2 className="w-3.5 h-3.5 text-cyan-700" />
                     Read
                   </button>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <h3 className="text-lg font-bold text-white">
+                <h3 className="text-lg font-bold text-slate-50">
                   {recipe.steps[activeStepIndex].title}
                 </h3>
                 <p className="text-base text-slate-200 leading-relaxed font-normal">
                   {recipe.steps[activeStepIndex].instruction}
                 </p>
                 {recipe.steps[activeStepIndex].chefTip && (
-                  <div className="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-xs text-amber-300">
+                  <div className="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-xs text-amber-800">
                     <strong>Chef Note:</strong> {recipe.steps[activeStepIndex].chefTip}
                   </div>
                 )}
@@ -281,9 +281,9 @@ export const RecipeDetailModal: React.FC<Props> = ({
               {recipe.steps[activeStepIndex].timerSeconds && (
                 <div className="flex items-center justify-between p-3 rounded-xl bg-slate-900 border border-slate-700">
                   <div className="flex items-center gap-2">
-                    <TimerIcon className="w-4 h-4 text-cyan-400" />
+                    <TimerIcon className="w-4 h-4 text-cyan-700" />
                     <span className="text-xs text-slate-400">Recommended Timer</span>
-                    <span className="text-sm font-mono font-bold text-white">
+                    <span className="text-sm font-mono font-bold text-slate-50">
                       {activeTimer !== null
                         ? `${Math.floor(activeTimer / 60)}:${(activeTimer % 60).toString().padStart(2, '0')}`
                         : `${Math.floor(recipe.steps[activeStepIndex].timerSeconds! / 60)}:${(recipe.steps[activeStepIndex].timerSeconds! % 60).toString().padStart(2, '0')}`}
@@ -297,7 +297,7 @@ export const RecipeDetailModal: React.FC<Props> = ({
                         handleStartStepTimer(activeTimer !== null && activeTimer > 0 ? activeTimer : recipe.steps[activeStepIndex].timerSeconds!);
                       }
                     }}
-                    className="px-3 py-1 text-xs font-semibold rounded-lg bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 flex items-center gap-1"
+                    className="px-3 py-1 text-xs font-semibold rounded-lg bg-cyan-500/20 text-cyan-700 hover:bg-cyan-500/30 flex items-center gap-1"
                   >
                     <Play className="w-3 h-3" />
                     {isTimerRunning ? 'Pause' : 'Start Timer'}
@@ -310,7 +310,7 @@ export const RecipeDetailModal: React.FC<Props> = ({
                 <button
                   disabled={activeStepIndex === 0}
                   onClick={() => setActiveStepIndex(prev => Math.max(0, prev - 1))}
-                  className="px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-800 disabled:opacity-40 text-slate-300 hover:text-white"
+                  className="px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-800 disabled:opacity-40 text-slate-300 hover:text-slate-50"
                 >
                   Previous Step
                 </button>
@@ -332,7 +332,7 @@ export const RecipeDetailModal: React.FC<Props> = ({
                       setShowDiarySlotPicker(true);
                       showToast('Culinary dish ready! Choose meal slot to log.');
                     }}
-                    className="px-3.5 py-1.5 text-xs font-bold rounded-lg bg-emerald-500 text-slate-950 hover:bg-emerald-400 flex items-center gap-1 shadow-md"
+                    className="px-3.5 py-1.5 text-xs font-bold rounded-lg bg-emerald-500 text-ink hover:bg-emerald-400 flex items-center gap-1 shadow-md"
                   >
                     <Check className="w-3.5 h-3.5 stroke-[3]" />
                     Done Cooking!
@@ -340,7 +340,7 @@ export const RecipeDetailModal: React.FC<Props> = ({
                 ) : (
                   <button
                     onClick={() => setActiveStepIndex(prev => Math.min(recipe.steps.length - 1, prev + 1))}
-                    className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-amber-500 text-slate-950 hover:bg-amber-400"
+                    className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-amber-500 text-ink hover:bg-amber-400"
                   >
                     Next Step
                   </button>
@@ -362,23 +362,23 @@ export const RecipeDetailModal: React.FC<Props> = ({
 
             <div className="grid grid-cols-4 gap-2 sm:gap-3">
               <div className="p-3 rounded-xl bg-slate-800/60 border border-slate-750 text-center">
-                <span className="text-xs font-semibold text-rose-400 uppercase tracking-wider block">Protein</span>
-                <span className="text-lg font-bold text-white font-mono">{proteinTotal}g</span>
+                <span className="text-xs font-semibold text-rose-700 uppercase tracking-wider block">Protein</span>
+                <span className="text-lg font-bold text-slate-50 font-mono">{proteinTotal}g</span>
                 <span className="text-xs text-slate-400 block">({recipe.macrosPerServe.protein}g / serv)</span>
               </div>
               <div className="p-3 rounded-xl bg-slate-800/60 border border-slate-750 text-center">
-                <span className="text-xs font-semibold text-amber-400 uppercase tracking-wider block">Carbs</span>
-                <span className="text-lg font-bold text-white font-mono">{carbsTotal}g</span>
+                <span className="text-xs font-semibold text-amber-800 uppercase tracking-wider block">Carbs</span>
+                <span className="text-lg font-bold text-slate-50 font-mono">{carbsTotal}g</span>
                 <span className="text-xs text-slate-400 block">({recipe.macrosPerServe.carbs}g / serv)</span>
               </div>
               <div className="p-3 rounded-xl bg-slate-800/60 border border-slate-750 text-center">
-                <span className="text-xs font-semibold text-blue-400 uppercase tracking-wider block">Fat</span>
-                <span className="text-lg font-bold text-white font-mono">{fatTotal}g</span>
+                <span className="text-xs font-semibold text-blue-600 uppercase tracking-wider block">Fat</span>
+                <span className="text-lg font-bold text-slate-50 font-mono">{fatTotal}g</span>
                 <span className="text-xs text-slate-400 block">({recipe.macrosPerServe.fat}g / serv)</span>
               </div>
               <div className="p-3 rounded-xl bg-slate-800/60 border border-slate-750 text-center">
-                <span className="text-xs font-semibold text-emerald-400 uppercase tracking-wider block">Fibre</span>
-                <span className="text-lg font-bold text-white font-mono">{fibreTotal}g</span>
+                <span className="text-xs font-semibold text-emerald-700 uppercase tracking-wider block">Fibre</span>
+                <span className="text-lg font-bold text-slate-50 font-mono">{fibreTotal}g</span>
                 <span className="text-xs text-slate-400 block">({recipe.macrosPerServe.fibre}g / serv)</span>
               </div>
             </div>
@@ -387,8 +387,8 @@ export const RecipeDetailModal: React.FC<Props> = ({
           {/* Serving Size Control (– 1 serve +) that rescales recipe */}
           <div className="flex items-center justify-between p-4 rounded-xl bg-slate-800/40 border border-slate-800">
             <div>
-              <h4 className="text-sm font-semibold text-white flex items-center gap-1.5">
-                <Users className="w-4 h-4 text-emerald-400" />
+              <h4 className="text-sm font-semibold text-slate-50 flex items-center gap-1.5">
+                <Users className="w-4 h-4 text-emerald-700" />
                 Serving Size Rescaling
               </h4>
               <p className="text-xs text-slate-400">All ingredient amounts and calories auto-scale dynamically</p>
@@ -398,18 +398,18 @@ export const RecipeDetailModal: React.FC<Props> = ({
             <div className="flex items-center bg-slate-900 border border-slate-700 rounded-xl p-1 shadow-inner">
               <button
                 onClick={() => setServings(prev => Math.max(1, prev - 1))}
-                className="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-bold flex items-center justify-center transition-colors disabled:opacity-40"
+                className="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-50 font-bold flex items-center justify-center transition-colors disabled:opacity-40"
                 disabled={servings <= 1}
               >
                 –
               </button>
               <div className="px-3 min-w-[5rem] text-center">
-                <span className="text-sm font-bold text-emerald-400 font-mono">{servings}</span>
+                <span className="text-sm font-bold text-emerald-700 font-mono">{servings}</span>
                 <span className="text-xs text-slate-300 ml-1">serve{servings > 1 ? 's' : ''}</span>
               </div>
               <button
                 onClick={() => setServings(prev => Math.min(12, prev + 1))}
-                className="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-bold flex items-center justify-center transition-colors"
+                className="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-50 font-bold flex items-center justify-center transition-colors"
               >
                 +
               </button>
@@ -456,7 +456,7 @@ export const RecipeDetailModal: React.FC<Props> = ({
                           }}
                           className={`relative before:absolute before:-inset-2 before:content-[''] shrink-0 w-5 h-5 rounded-md flex items-center justify-center border transition-colors ${
                             checkedIngredients.includes(ing.name)
-                              ? 'bg-emerald-500 border-emerald-500 text-slate-950'
+                              ? 'bg-emerald-500 border-emerald-500 text-ink'
                               : 'border-slate-600 hover:border-slate-400'
                           }`}
                           title="Check off ingredient"
@@ -464,7 +464,7 @@ export const RecipeDetailModal: React.FC<Props> = ({
                           {checkedIngredients.includes(ing.name) && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                         </button>
                         <div>
-                          <p className={`text-sm font-medium ${checkedIngredients.includes(ing.name) ? 'line-through text-slate-500' : 'text-white'}`}>
+                          <p className={`text-sm font-medium ${checkedIngredients.includes(ing.name) ? 'line-through text-slate-500' : 'text-slate-50'}`}>
                             {ing.name}
                           </p>
                           <span className="text-xs text-slate-500">{ing.category}</span>
@@ -472,7 +472,7 @@ export const RecipeDetailModal: React.FC<Props> = ({
                       </div>
 
                       <div className="flex items-center gap-3">
-                        <span className={`text-sm font-mono font-bold ${checkedIngredients.includes(ing.name) ? 'text-slate-500' : 'text-emerald-400'}`}>
+                        <span className={`text-sm font-mono font-bold ${checkedIngredients.includes(ing.name) ? 'text-slate-500' : 'text-emerald-700'}`}>
                           {scaledAmount} {ing.unit}
                         </span>
                         {isExpanded ? (
@@ -492,8 +492,8 @@ export const RecipeDetailModal: React.FC<Props> = ({
                           </p>
                         )}
                         {ing.substitutions && (
-                          <p className="text-amber-300/90">
-                            <span className="font-semibold text-amber-400">Substitutions:</span> {ing.substitutions}
+                          <p className="text-amber-800">
+                            <span className="font-semibold text-amber-800">Substitutions:</span> {ing.substitutions}
                           </p>
                         )}
                       </div>
@@ -513,14 +513,14 @@ export const RecipeDetailModal: React.FC<Props> = ({
               <div className="space-y-3">
                 {recipe.steps.map((step) => (
                   <div key={step.stepNumber} className="flex gap-3.5 p-3 rounded-xl bg-slate-800/20 border border-slate-800">
-                    <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xs flex items-center justify-center flex-shrink-0">
+                    <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-800 font-bold text-xs flex items-center justify-center flex-shrink-0">
                       {step.stepNumber}
                     </div>
                     <div className="space-y-1">
-                      <h4 className="text-sm font-semibold text-white">{step.title}</h4>
+                      <h4 className="text-sm font-semibold text-slate-50">{step.title}</h4>
                       <p className="text-xs text-slate-300 leading-relaxed">{step.instruction}</p>
                       {step.chefTip && (
-                        <p className="text-xs text-amber-400/90 italic">Tip: {step.chefTip}</p>
+                        <p className="text-xs text-amber-800 italic">Tip: {step.chefTip}</p>
                       )}
                     </div>
                   </div>
@@ -538,7 +538,7 @@ export const RecipeDetailModal: React.FC<Props> = ({
                 <select
                   value={selectedSlot}
                   onChange={(e) => setSelectedSlot(e.target.value as any)}
-                  className="px-2.5 py-2 text-xs rounded-xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-emerald-500"
+                  className="px-2.5 py-2 text-xs rounded-xl bg-slate-800 border border-slate-700 text-slate-50 focus:outline-none focus:border-emerald-500"
                 >
                   <option value="Breakfast">Breakfast</option>
                   <option value="Morning Snack">Morning Snack</option>
@@ -549,14 +549,14 @@ export const RecipeDetailModal: React.FC<Props> = ({
                 </select>
                 <button
                   onClick={handleConfirmDiaryAdd}
-                  className="px-3 py-2 text-xs font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 rounded-xl flex items-center gap-1"
+                  className="px-3 py-2 text-xs font-bold bg-emerald-500 hover:bg-emerald-400 text-ink rounded-xl flex items-center gap-1"
                 >
                   <Check className="w-3.5 h-3.5" />
                   Log
                 </button>
                 <button
                   onClick={() => setShowDiarySlotPicker(false)}
-                  className="px-2.5 py-2 text-xs text-slate-400 hover:text-white"
+                  className="px-2.5 py-2 text-xs text-slate-400 hover:text-slate-50"
                 >
                   Cancel
                 </button>
@@ -564,7 +564,7 @@ export const RecipeDetailModal: React.FC<Props> = ({
             ) : (
               <button
                 onClick={() => setShowDiarySlotPicker(true)}
-                className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-bold flex items-center justify-center gap-2 transition-colors shadow-lg shadow-emerald-500/10"
+                className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-ink text-xs font-bold flex items-center justify-center gap-2 transition-colors shadow-lg shadow-emerald-500/10"
               >
                 <PlusCircle className="w-4 h-4" />
                 Add Recipe to Food Diary ({caloriesTotal} kcal)

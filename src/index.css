@@ -1,9 +1,29 @@
 @import "tailwindcss";
 
-/* In-between slate shades used across components (not in Tailwind's default palette) */
+/*
+ * Light theme. Components were written dark-first (slate-950 page, slate-900 cards, white text),
+ * so the slate scale is remapped by role: dark shades are now light surfaces and borders,
+ * light shades are now dark text. `ink` is always-dark text for bright accent buttons.
+ */
 @theme {
-  --color-slate-750: #283548;
-  --color-slate-850: #172033;
+  --color-slate-50: #0f172a;   /* primary text (was white-ish) */
+  --color-slate-100: #1e293b;
+  --color-slate-200: #1e293b;
+  --color-slate-300: #334155;  /* body text */
+  --color-slate-400: #475569;  /* secondary text */
+  --color-slate-500: #586577;  /* muted text (darkened to pass 4.5:1 on the page grey) */
+  --color-slate-600: #94a3b8;
+  --color-slate-700: #cbd5e1;  /* borders, progress tracks */
+  --color-slate-750: #dbe3ec;
+  --color-slate-800: #e2e8f0;  /* inner surfaces, dividers */
+  --color-slate-850: #eef2f6;
+  --color-slate-900: #ffffff;  /* cards */
+  --color-slate-950: #f1f5f9;  /* page background */
+  --color-ink: #0f172a;
+}
+
+:root {
+  color-scheme: light;
 }
 
 @layer base {
@@ -30,7 +50,7 @@
 
   /* Visible keyboard focus everywhere (mouse clicks stay ring-free) */
   :focus-visible {
-    outline: 2px solid #34d399;
+    outline: 2px solid #059669;
     outline-offset: 2px;
     border-radius: 0.75rem;
   }
@@ -54,30 +74,11 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.2);
+  background: rgba(100, 116, 139, 0.3);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.4);
-}
-
-/* Glassmorphism helpers */
-.glass-panel-dark {
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.glass-panel-pink {
-  background: rgba(30, 11, 23, 0.8);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(244, 63, 94, 0.2);
-}
-
-.glass-panel-mint {
-  background: rgba(6, 30, 24, 0.8);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(16, 185, 129, 0.2);
+  background: rgba(100, 116, 139, 0.5);
 }
 
 /* Radar pulse animation for map runners */

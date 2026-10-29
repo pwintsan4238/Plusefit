@@ -36,16 +36,16 @@ export const MealPlannerModal: React.FC<Props> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/45 backdrop-blur-md animate-in fade-in duration-200">
       <div className="relative w-full max-w-2xl max-h-[90vh] flex flex-col bg-slate-900 border border-slate-750 rounded-2xl shadow-2xl overflow-hidden text-slate-100">
         {/* Header */}
         <div className="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/90">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-amber-500/15 text-amber-800 flex items-center justify-center">
               <Calendar className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+              <h2 className="text-xl font-bold tracking-tight text-slate-50 flex items-center gap-2">
                 Weekly Meal Planner
               </h2>
               <p className="text-xs text-slate-400">
@@ -55,7 +55,7 @@ export const MealPlannerModal: React.FC<Props> = ({
           </div>
           <button aria-label="Close"
             onClick={onClose}
-            className="w-9 h-9 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors"
+            className="w-9 h-9 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-slate-50 flex items-center justify-center transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -69,7 +69,7 @@ export const MealPlannerModal: React.FC<Props> = ({
               onClick={() => setSelectedDay(d.name)}
               className={`flex-shrink-0 px-3.5 py-2 rounded-xl text-center transition-all ${
                 selectedDay === d.name
-                  ? 'bg-amber-500/20 border border-amber-500/50 text-amber-300'
+                  ? 'bg-amber-500/20 border border-amber-500/50 text-amber-800'
                   : 'bg-slate-800/60 hover:bg-slate-800 border border-slate-750 text-slate-300'
               }`}
             >
@@ -83,7 +83,7 @@ export const MealPlannerModal: React.FC<Props> = ({
         <div className="p-5 overflow-y-auto flex-1 space-y-4">
           <div className="flex items-center justify-between p-3.5 rounded-xl bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-transparent border border-amber-500/20">
             <div>
-              <h4 className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+              <h4 className="text-sm font-bold text-amber-800 flex items-center gap-1.5">
                 <Sparkles className="w-4 h-4" />
                 Smart Calorie Target: 1,901 cals
               </h4>
@@ -93,7 +93,7 @@ export const MealPlannerModal: React.FC<Props> = ({
             </div>
             <button
               onClick={handleAutoBalance}
-              className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 flex items-center gap-1.5 transition-colors shadow-sm"
+              className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-ink flex items-center gap-1.5 transition-colors shadow-sm"
             >
               {autoBalanced ? (
                 <>
@@ -125,10 +125,10 @@ export const MealPlannerModal: React.FC<Props> = ({
                     className="w-12 h-12 rounded-lg object-cover border border-slate-700"
                   />
                   <div>
-                    <span className="text-xs font-semibold uppercase tracking-wider text-amber-400">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-amber-800">
                       {meal.category}
                     </span>
-                    <h5 className="text-sm font-semibold text-white">{meal.name}</h5>
+                    <h5 className="text-sm font-semibold text-slate-50">{meal.name}</h5>
                     <div className="flex items-center gap-2 text-xs text-slate-400">
                       <span>{meal.calories} cals</span>
                       <span>•</span>
@@ -137,7 +137,7 @@ export const MealPlannerModal: React.FC<Props> = ({
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="text-xs font-mono font-medium text-emerald-400">
+                  <span className="text-xs font-mono font-medium text-emerald-700">
                     {meal.macros.protein}g P
                   </span>
                 </div>
@@ -152,7 +152,7 @@ export const MealPlannerModal: React.FC<Props> = ({
           <div className="flex gap-2">
             <button
               onClick={onClose}
-              className="px-4 py-2 text-xs font-medium text-slate-400 hover:text-white"
+              className="px-4 py-2 text-xs font-medium text-slate-400 hover:text-slate-50"
             >
               Close
             </button>
@@ -161,7 +161,7 @@ export const MealPlannerModal: React.FC<Props> = ({
                 onTrackAllToDiary();
                 onClose();
               }}
-              className="px-4 py-2 text-xs font-semibold bg-emerald-500 hover:bg-emerald-400 text-slate-950 rounded-lg flex items-center gap-1.5 transition-colors"
+              className="px-4 py-2 text-xs font-semibold bg-emerald-500 hover:bg-emerald-400 text-ink rounded-lg flex items-center gap-1.5 transition-colors"
             >
               Track All to Diary
               <ArrowRight className="w-3.5 h-3.5" />

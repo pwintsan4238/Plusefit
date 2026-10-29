@@ -136,26 +136,26 @@ export const IntervalTimerView: React.FC<Props> = ({ onSessionComplete }) => {
 
   const phaseColor =
     phase === 'work'
-      ? 'text-emerald-400 stroke-emerald-400'
+      ? 'text-emerald-700 stroke-emerald-700'
       : phase === 'rest'
-      ? 'text-cyan-400 stroke-cyan-400'
+      ? 'text-cyan-700 stroke-cyan-700'
       : phase === 'warmup'
-      ? 'text-amber-400 stroke-amber-400'
-      : 'text-purple-400 stroke-purple-400';
+      ? 'text-amber-800 stroke-amber-700'
+      : 'text-purple-600 stroke-purple-600';
 
   return (
-    <div className="w-full max-w-4xl mx-auto space-y-6 pb-24 text-emerald-50 selection:bg-emerald-500 selection:text-slate-950">
+    <div className="w-full max-w-4xl mx-auto space-y-6 pb-24 text-emerald-800 selection:bg-emerald-500 selection:text-ink">
       
       {/* Header Banner */}
       <div className="p-6 rounded-3xl bg-slate-900 border border-emerald-500/30 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+            <span className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-800 border border-emerald-500/30">
               Time Track
             </span>
             <span className="text-xs text-slate-400">HIIT / Tabata / Circuit Engine</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-white mt-1">
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-50 mt-1">
             Interval Timer
           </h1>
           <p className="text-xs text-slate-300">
@@ -167,7 +167,7 @@ export const IntervalTimerView: React.FC<Props> = ({ onSessionComplete }) => {
           onClick={() => setShowSettingsDrawer(!showSettingsDrawer)}
           className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 flex items-center gap-2 text-xs font-semibold transition-colors"
         >
-          <Settings2 className="w-4 h-4 text-emerald-400" />
+          <Settings2 className="w-4 h-4 text-emerald-700" />
           <span>Timer Settings</span>
         </button>
       </div>
@@ -176,13 +176,13 @@ export const IntervalTimerView: React.FC<Props> = ({ onSessionComplete }) => {
       {showSettingsDrawer && (
         <div className="p-6 rounded-3xl bg-slate-900 border border-emerald-500/30 shadow-2xl space-y-6 animate-in fade-in duration-200">
           <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
-              <Sliders className="w-4 h-4 text-emerald-400" />
+            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-50 flex items-center gap-2">
+              <Sliders className="w-4 h-4 text-emerald-700" />
               Interval Protocol Settings
             </h2>
             <button
               onClick={() => setShowSettingsDrawer(false)}
-              className="text-xs font-semibold text-emerald-400 hover:text-emerald-300"
+              className="text-xs font-semibold text-emerald-700 hover:text-emerald-700"
             >
               Done
             </button>
@@ -197,7 +197,7 @@ export const IntervalTimerView: React.FC<Props> = ({ onSessionComplete }) => {
                 </label>
                 <p className="text-xs text-slate-400">Select total interval cycles</p>
               </div>
-              <span className="text-xl font-mono font-black text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-xl border border-emerald-500/20">
+              <span className="text-xl font-mono font-black text-emerald-800 bg-emerald-500/10 px-3 py-1 rounded-xl border border-emerald-500/20">
                 {rounds} Rounds
               </span>
             </div>
@@ -213,7 +213,7 @@ export const IntervalTimerView: React.FC<Props> = ({ onSessionComplete }) => {
                   }}
                   className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold border transition-all ${
                     rounds === r
-                      ? 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-md shadow-emerald-500/20'
+                      ? 'bg-emerald-500 text-ink border-emerald-400 shadow-md shadow-emerald-500/20'
                       : 'bg-slate-800/80 hover:bg-slate-800 text-slate-300 border-slate-700'
                   }`}
                 >
@@ -240,12 +240,12 @@ export const IntervalTimerView: React.FC<Props> = ({ onSessionComplete }) => {
             <div className="p-4 rounded-2xl bg-slate-800/40 border border-slate-750 space-y-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <label className="text-xs font-bold uppercase tracking-wider text-emerald-400">
+                  <label className="text-xs font-bold uppercase tracking-wider text-emerald-700">
                     Active Time (Work)
                   </label>
                   <p className="text-xs text-slate-400">High effort interval</p>
                 </div>
-                <span className="text-lg font-mono font-bold text-white">
+                <span className="text-lg font-mono font-bold text-slate-50">
                   {activeSeconds}s
                 </span>
               </div>
@@ -256,7 +256,7 @@ export const IntervalTimerView: React.FC<Props> = ({ onSessionComplete }) => {
                     onClick={() => setActiveSeconds(sec)}
                     className={`px-2.5 py-1 text-xs font-mono rounded-lg border ${
                       activeSeconds === sec
-                        ? 'bg-emerald-500 text-slate-950 font-bold border-emerald-400'
+                        ? 'bg-emerald-500 text-ink font-bold border-emerald-400'
                         : 'bg-slate-800 text-slate-300 border-slate-700'
                     }`}
                   >
@@ -270,12 +270,12 @@ export const IntervalTimerView: React.FC<Props> = ({ onSessionComplete }) => {
             <div className="p-4 rounded-2xl bg-slate-800/40 border border-slate-750 space-y-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <label className="text-xs font-bold uppercase tracking-wider text-cyan-400">
+                  <label className="text-xs font-bold uppercase tracking-wider text-cyan-700">
                     Recovery Time (Rest)
                   </label>
                   <p className="text-xs text-slate-400">Catch breath & hydrate</p>
                 </div>
-                <span className="text-lg font-mono font-bold text-white">
+                <span className="text-lg font-mono font-bold text-slate-50">
                   {recoverySeconds}s
                 </span>
               </div>
@@ -286,7 +286,7 @@ export const IntervalTimerView: React.FC<Props> = ({ onSessionComplete }) => {
                     onClick={() => setRecoverySeconds(sec)}
                     className={`px-2.5 py-1 text-xs font-mono rounded-lg border ${
                       recoverySeconds === sec
-                        ? 'bg-cyan-500 text-slate-950 font-bold border-cyan-400'
+                        ? 'bg-cyan-500 text-ink font-bold border-cyan-400'
                         : 'bg-slate-800 text-slate-300 border-slate-700'
                     }`}
                   >
@@ -302,7 +302,7 @@ export const IntervalTimerView: React.FC<Props> = ({ onSessionComplete }) => {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <label className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-                <Bell className="w-3.5 h-3.5 text-emerald-400" />
+                <Bell className="w-3.5 h-3.5 text-emerald-700" />
                 Alert Sound Settings
               </label>
               <span className="text-xs text-slate-400">Synthesized audio cues</span>
@@ -323,11 +323,11 @@ export const IntervalTimerView: React.FC<Props> = ({ onSessionComplete }) => {
                   }}
                   className={`p-3 rounded-xl border text-center transition-all flex flex-col items-center gap-1.5 ${
                     alertSound === item.id
-                      ? 'bg-emerald-500/20 border-emerald-500/60 text-white shadow-md shadow-emerald-500/10'
+                      ? 'bg-emerald-500/20 border-emerald-500/60 text-slate-50 shadow-md shadow-emerald-500/10'
                       : 'bg-slate-800/40 border-slate-800 hover:bg-slate-800 text-slate-300'
                   }`}
                 >
-                  <Volume2 className="w-4 h-4 text-emerald-400" />
+                  <Volume2 className="w-4 h-4 text-emerald-700" />
                   <span className="text-xs font-semibold">{item.label}</span>
                 </button>
               ))}
@@ -348,10 +348,10 @@ export const IntervalTimerView: React.FC<Props> = ({ onSessionComplete }) => {
         <div className="relative z-10 mb-4">
           <span className={`px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest border transition-all ${
             phase === 'work'
-              ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400 shadow-lg shadow-emerald-500/20'
+              ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-800 shadow-lg shadow-emerald-500/20'
               : phase === 'rest'
-              ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-400 shadow-lg shadow-cyan-500/20'
-              : 'bg-purple-500/20 border-purple-500/40 text-purple-400'
+              ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-700 shadow-lg shadow-cyan-500/20'
+              : 'bg-purple-500/20 border-purple-500/40 text-purple-600'
           }`}>
             {phase === 'work' ? 'WORK PHASE' : phase === 'rest' ? 'REST & RECOVER' : 'SESSION COMPLETE'}
           </span>
@@ -386,11 +386,11 @@ export const IntervalTimerView: React.FC<Props> = ({ onSessionComplete }) => {
 
           {/* Central Countdown Text */}
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-            <span className="text-6xl sm:text-7xl font-black font-mono text-white tracking-tight">
+            <span className="text-6xl sm:text-7xl font-black font-mono text-slate-50 tracking-tight">
               {timeRemaining}
               <span className="text-2xl font-light text-slate-400 ml-1">s</span>
             </span>
-            <span className="text-sm font-mono font-bold text-emerald-400 mt-1">
+            <span className="text-sm font-mono font-bold text-emerald-700 mt-1">
               Round {currentRound} of {rounds}
             </span>
             <span className="text-xs text-slate-400 mt-1">
@@ -403,7 +403,7 @@ export const IntervalTimerView: React.FC<Props> = ({ onSessionComplete }) => {
         <div className="relative z-10 flex items-center gap-4 mt-6">
           <button
             onClick={handleReset}
-            className="p-3.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
+            className="p-3.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-slate-50 transition-colors"
             title="Reset timer"
           >
             <RotateCcw className="w-5 h-5" />
@@ -413,8 +413,8 @@ export const IntervalTimerView: React.FC<Props> = ({ onSessionComplete }) => {
             onClick={handleStartPause}
             className={`px-10 py-4 rounded-2xl font-black text-sm uppercase tracking-wider flex items-center gap-3 shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer ${
               isRunning
-                ? 'bg-slate-800 text-white border border-slate-700'
-                : 'bg-emerald-400 hover:bg-emerald-300 text-slate-950 shadow-emerald-500/30'
+                ? 'bg-slate-800 text-slate-50 border border-slate-700'
+                : 'bg-emerald-400 hover:bg-emerald-300 text-ink shadow-emerald-500/30'
             }`}
           >
             {isRunning ? <Pause className="w-5 h-5 fill-current" /> : <Play className="w-5 h-5 fill-current" />}
@@ -423,7 +423,7 @@ export const IntervalTimerView: React.FC<Props> = ({ onSessionComplete }) => {
 
           <button
             onClick={handleSkipPhase}
-            className="p-3.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
+            className="p-3.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-slate-50 transition-colors"
             title="Skip to next phase"
           >
             <SkipForward className="w-5 h-5" />
@@ -433,7 +433,7 @@ export const IntervalTimerView: React.FC<Props> = ({ onSessionComplete }) => {
         {/* Sound & Phase quick summary */}
         <div className="relative z-10 mt-8 pt-4 border-t border-slate-800/80 w-full flex items-center justify-between text-xs text-slate-400">
           <span className="flex items-center gap-1.5">
-            <Bell className="w-3.5 h-3.5 text-emerald-400" />
+            <Bell className="w-3.5 h-3.5 text-emerald-700" />
             Alert: {alertSound.replace('_', ' ')}
           </span>
           <span className="font-mono">
