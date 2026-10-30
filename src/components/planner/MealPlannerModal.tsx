@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MealItem } from '../../types';
 import { X, Calendar, Sparkles, Plus, ArrowRight, Utensils, CheckCircle } from 'lucide-react';
+import { formatShortDate, toDateKey, weekOf } from '../../utils/dates';
 
 interface Props {
   isOpen: boolean;
@@ -15,20 +16,20 @@ export const MealPlannerModal: React.FC<Props> = ({
   plannedMeals,
   onTrackAllToDiary
 }) => {
-  const [selectedDay, setSelectedDay] = useState('Today (Thu)');
+  // This week, Monday to Sunday, with sample planned calorie totals
+  const today = new Date();
+  const todayKey = toDateKey(today);
+  const plannedCals = [1890, 1910, 1885, 1901, 1920, 1850, 1900];
+  const days = weekOf(today).map((date, i) => {
+    const isToday = toDateKey(date) === todayKey;
+    const weekday = date.toLocaleDateString('en-US', { weekday: 'short' });
+    return { name: isToday ? `Today (${weekday})` : weekday, date: formatShortDate(date), cals: plannedCals[i], isToday };
+  });
+
+  const [selectedDay, setSelectedDay] = useState(() => days.find(d => d.isToday)!.name);
   const [autoBalanced, setAutoBalanced] = useState(false);
 
   if (!isOpen) return null;
-
-  const days = [
-    { name: 'Mon', date: 'Oct 26', cals: 1890 },
-    { name: 'Tue', date: 'Oct 27', cals: 1910 },
-    { name: 'Wed', date: 'Oct 28', cals: 1885 },
-    { name: 'Today (Thu)', date: 'Oct 29', cals: 1901, isToday: true },
-    { name: 'Fri', date: 'Oct 30', cals: 1920 },
-    { name: 'Sat', date: 'Oct 31', cals: 1850 },
-    { name: 'Sun', date: 'Nov 01', cals: 1900 },
-  ];
 
   const handleAutoBalance = () => {
     setAutoBalanced(true);
