@@ -31,12 +31,69 @@ import { PremiumView } from './components/premium/PremiumView';
 import { CheckoutModal } from './components/premium/CheckoutModal';
 import { usePersistentState } from './hooks/usePersistentState';
 import { PackageId, PlanId, Purchases, hasActiveAccess, activatePurchase } from './data/premium';
+import { dateKeyForOffset } from './utils/dates';
 
 const TABS: ActiveTab[] = ['home', 'map', 'nutrition', 'recipe', 'workout', 'timer', 'premium'];
 
 function readTabFromHash(): ActiveTab {
   const hash = window.location.hash.slice(1) as ActiveTab;
   return TABS.includes(hash) ? hash : 'nutrition';
+}
+
+// Sample entries shown on first launch
+const SAMPLE_TODAY: FoodDiaryEntry[] = [
+  {
+    id: 'diary-init-1',
+    mealCategory: 'Breakfast',
+    name: 'Cold Pressed Green Juice & Almonds',
+    calories: 220,
+    portion: '300ml bottle + 15 almonds',
+    macros: { protein: 6, carbs: 18, fat: 14, fibre: 4 },
+    timeLogged: '07:45 AM'
+  }
+];
+const SAMPLE_YESTERDAY: FoodDiaryEntry[] = [
+  {
+    id: 'diary-yest-1',
+    mealCategory: 'Breakfast',
+    name: 'Avocado & Poached Egg Sourdough',
+    calories: 480,
+    portion: '1 serve',
+    macros: { protein: 24, carbs: 36, fat: 22, fibre: 8 },
+    timeLogged: '08:15 AM'
+  },
+  {
+    id: 'diary-yest-2',
+    mealCategory: 'Lunch',
+    name: 'Grilled Lemon Herb Salmon & Quinoa',
+    calories: 585,
+    portion: '1 serve',
+    macros: { protein: 44, carbs: 48, fat: 19, fibre: 8 },
+    timeLogged: '01:00 PM'
+  }
+];
+
+/**
+ * First-load diary. Older versions saved days by slot (0 = today, 1 = yesterday, 2 = tomorrow,
+ * 3/4 = the two days after); move those onto real dates relative to today.
+ */
+function initialDiary(): Record<string, FoodDiaryEntry[]> {
+  const LEGACY_SLOT_OFFSETS = [0, -1, 1, 2, 3];
+  try {
+    const raw = window.localStorage.getItem('pulsefit:v1:diaryByDay');
+    if (raw) {
+      const legacy = JSON.parse(raw) as Record<string, FoodDiaryEntry[]>;
+      const migrated: Record<string, FoodDiaryEntry[]> = {};
+      LEGACY_SLOT_OFFSETS.forEach((offset, slot) => {
+        if (legacy[slot]?.length) migrated[dateKeyForOffset(offset)] = legacy[slot];
+      });
+      window.localStorage.removeItem('pulsefit:v1:diaryByDay');
+      return migrated;
+    }
+  } catch {
+    // Unreadable old data: start fresh
+  }
+  return { [dateKeyForOffset(0)]: SAMPLE_TODAY, [dateKeyForOffset(-1)]: SAMPLE_YESTERDAY };
 }
 
 export default function App() {
@@ -64,46 +121,12 @@ export default function App() {
   const [macrosTotal, setMacrosTotal] = usePersistentState<MacroNutrients>('macrosTotal', INITIAL_CALORIE_BUDGET.macrosTotal);
   const [plannedMeals, setPlannedMeals] = usePersistentState<MealItem[]>('plannedMeals', DAILY_MEAL_PLAN);
 
-  // Date index: 0 = Today, 1 = Yesterday, 2 = Tomorrow, 3 = Saturday, 4 = Sunday
-  const [currentDateIndex, setCurrentDateIndex] = useState<number>(0);
+  // Selected diary day as an offset from today (0 = today, -1 = yesterday)
+  const [dayOffset, setDayOffset] = useState<number>(0);
+  const dateKey = dateKeyForOffset(dayOffset);
 
-  // Multi-day Diary Map
-  const [diaryByDay, setDiaryByDay] = usePersistentState<Record<number, FoodDiaryEntry[]>>('diaryByDay', {
-    0: [
-      {
-        id: 'diary-init-1',
-        mealCategory: 'Breakfast',
-        name: 'Cold Pressed Green Juice & Almonds',
-        calories: 220,
-        portion: '300ml bottle + 15 almonds',
-        macros: { protein: 6, carbs: 18, fat: 14, fibre: 4 },
-        timeLogged: '07:45 AM'
-      }
-    ],
-    1: [
-      {
-        id: 'diary-yest-1',
-        mealCategory: 'Breakfast',
-        name: 'Avocado & Poached Egg Sourdough',
-        calories: 480,
-        portion: '1 serve',
-        macros: { protein: 24, carbs: 36, fat: 22, fibre: 8 },
-        timeLogged: '08:15 AM'
-      },
-      {
-        id: 'diary-yest-2',
-        mealCategory: 'Lunch',
-        name: 'Grilled Lemon Herb Salmon & Quinoa',
-        calories: 585,
-        portion: '1 serve',
-        macros: { protein: 44, carbs: 48, fat: 19, fibre: 8 },
-        timeLogged: '01:00 PM'
-      }
-    ],
-    2: [],
-    3: [],
-    4: []
-  });
+  // Food diary keyed by calendar date (YYYY-MM-DD)
+  const [diaryByDay, setDiaryByDay] = usePersistentState<Record<string, FoodDiaryEntry[]>>('diaryByDate', initialDiary);
 
   // Active Stats State
   const [caloriesBurned, setCaloriesBurned] = usePersistentState<number>('caloriesBurned', 640);
@@ -136,7 +159,7 @@ export default function App() {
   const [isFavouritesOpen, setIsFavouritesOpen] = useState<boolean>(false);
 
   // Computed for current day
-  const currentEntries = diaryByDay[currentDateIndex] || [];
+  const currentEntries = diaryByDay[dateKey] || [];
   const currentConsumed = currentEntries.reduce((sum, item) => sum + item.calories, 0);
   const currentCaloriesLeft = Math.max(0, dailyTarget - currentConsumed);
 
@@ -177,7 +200,7 @@ export default function App() {
 
     setDiaryByDay(prev => ({
       ...prev,
-      [currentDateIndex]: [newEntry, ...(prev[currentDateIndex] || [])]
+      [dateKey]: [newEntry, ...(prev[dateKey] || [])]
     }));
   };
 
@@ -196,7 +219,7 @@ export default function App() {
 
     setDiaryByDay(prev => ({
       ...prev,
-      [currentDateIndex]: [...newEntries, ...(prev[currentDateIndex] || [])]
+      [dateKey]: [...newEntries, ...(prev[dateKey] || [])]
     }));
   };
 
@@ -210,7 +233,7 @@ export default function App() {
 
     setDiaryByDay(prev => ({
       ...prev,
-      [currentDateIndex]: [fullEntry, ...(prev[currentDateIndex] || [])]
+      [dateKey]: [fullEntry, ...(prev[dateKey] || [])]
     }));
   };
 
@@ -218,7 +241,7 @@ export default function App() {
   const handleDeleteDiaryEntry = (id: string) => {
     setDiaryByDay(prev => ({
       ...prev,
-      [currentDateIndex]: (prev[currentDateIndex] || []).filter(d => d.id !== id)
+      [dateKey]: (prev[dateKey] || []).filter(d => d.id !== id)
     }));
   };
 
@@ -226,13 +249,13 @@ export default function App() {
   const handleClearDiary = () => {
     setDiaryByDay(prev => ({
       ...prev,
-      [currentDateIndex]: []
+      [dateKey]: []
     }));
   };
 
-  // 6. Copy day
+  // 6. Copy the previous calendar day into the selected day
   const handleCopyDay = () => {
-    const sourceDay = currentDateIndex === 0 ? 1 : 0;
+    const sourceDay = dateKeyForOffset(dayOffset - 1);
     const itemsToCopy = (diaryByDay[sourceDay] || []).map((item, idx) => ({
       ...item,
       id: `diary-copy-${Date.now()}-${idx}`,
@@ -241,7 +264,7 @@ export default function App() {
 
     setDiaryByDay(prev => ({
       ...prev,
-      [currentDateIndex]: [...itemsToCopy, ...(prev[currentDateIndex] || [])]
+      [dateKey]: [...itemsToCopy, ...(prev[dateKey] || [])]
     }));
   };
 
@@ -313,8 +336,8 @@ export default function App() {
             plannedMeals={plannedMeals}
             diaryEntries={currentEntries}
             calorieBudget={currentCalorieBudget}
-            currentDateIndex={currentDateIndex}
-            onDateIndexChange={setCurrentDateIndex}
+            dayOffset={dayOffset}
+            onDayOffsetChange={setDayOffset}
             onQuickAddPlannedMeal={handleQuickAddPlannedMeal}
             onTrackAllToDiary={handleTrackAllToDiary}
             onOpenMealPlanner={() => requirePackage('diet', () => setIsMealPlannerOpen(true))}

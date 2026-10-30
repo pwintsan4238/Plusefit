@@ -23,6 +23,7 @@ import confetti from 'canvas-confetti';
 import { AddFoodModal } from './AddFoodModal';
 import { AdjustGoalsModal } from './AdjustGoalsModal';
 import { ExportSummaryModal } from './ExportSummaryModal';
+import { MIN_DAY_OFFSET, MAX_DAY_OFFSET, addDays, dayLabel, formatLongDate, formatShortDate } from '../../utils/dates';
 
 interface Props {
   plannedMeals: MealItem[];
@@ -35,8 +36,9 @@ interface Props {
     macrosLeft: MacroNutrients;
     macrosTotal: MacroNutrients;
   };
-  currentDateIndex: number;
-  onDateIndexChange: (idx: number) => void;
+  /** Selected day as an offset from today (0 = today, -1 = yesterday) */
+  dayOffset: number;
+  onDayOffsetChange: (offset: number) => void;
   onQuickAddPlannedMeal: (meal: MealItem) => void;
   onTrackAllToDiary: () => void;
   onOpenMealPlanner: () => void;
@@ -55,8 +57,8 @@ export const DailyNutritionView: React.FC<Props> = ({
   plannedMeals,
   diaryEntries,
   calorieBudget,
-  currentDateIndex,
-  onDateIndexChange,
+  dayOffset,
+  onDayOffsetChange,
   onQuickAddPlannedMeal,
   onTrackAllToDiary,
   onOpenMealPlanner,
@@ -76,15 +78,16 @@ export const DailyNutritionView: React.FC<Props> = ({
   const [showExportModal, setShowExportModal] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  const daysList = [
-    { label: 'Today', dateString: 'Thursday, Oct 29', dayOffset: 0 },
-    { label: 'Yesterday', dateString: 'Wednesday, Oct 28', dayOffset: -1 },
-    { label: 'Tomorrow', dateString: 'Friday, Oct 30', dayOffset: 1 },
-    { label: 'Saturday', dateString: 'Saturday, Oct 31', dayOffset: 2 },
-    { label: 'Sunday', dateString: 'Sunday, Nov 01', dayOffset: 3 },
-  ];
+  // Real calendar days around today, oldest first
+  const today = new Date();
+  const daysList = Array.from({ length: MAX_DAY_OFFSET - MIN_DAY_OFFSET + 1 }, (_, i) => {
+    const offset = MIN_DAY_OFFSET + i;
+    const date = addDays(today, offset);
+    return { offset, label: dayLabel(offset, today), dateString: formatLongDate(date), shortDate: formatShortDate(date) };
+  });
 
-  const currentDay = daysList[currentDateIndex] || daysList[0];
+  const currentDay = daysList.find(d => d.offset === dayOffset) ?? daysList[-MIN_DAY_OFFSET];
+  const dayName = currentDay.label === 'Today' ? 'today' : currentDay.label;
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -143,8 +146,8 @@ export const DailyNutritionView: React.FC<Props> = ({
         {/* Date switcher (‹ Today ›) with calendar modal */}
         <div className="flex items-center gap-2 bg-slate-800/80 px-2 py-1.5 rounded-xl border border-slate-700/80">
           <button
-            onClick={() => onDateIndexChange(Math.max(0, currentDateIndex - 1))}
-            disabled={currentDateIndex === 0}
+            onClick={() => onDayOffsetChange(Math.max(MIN_DAY_OFFSET, dayOffset - 1))}
+            disabled={dayOffset <= MIN_DAY_OFFSET}
             className="p-2.5 -m-1 rounded-lg hover:bg-slate-700 text-slate-300 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
             title="Previous Day"
           >
@@ -161,8 +164,8 @@ export const DailyNutritionView: React.FC<Props> = ({
           </button>
 
           <button
-            onClick={() => onDateIndexChange(Math.min(daysList.length - 1, currentDateIndex + 1))}
-            disabled={currentDateIndex === daysList.length - 1}
+            onClick={() => onDayOffsetChange(Math.min(MAX_DAY_OFFSET, dayOffset + 1))}
+            disabled={dayOffset >= MAX_DAY_OFFSET}
             className="p-2.5 -m-1 rounded-lg hover:bg-slate-700 text-slate-300 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
             title="Next Day"
           >
@@ -197,7 +200,7 @@ export const DailyNutritionView: React.FC<Props> = ({
                   onClick={() => {
                     onCopyDay();
                     setShowDiaryMenu(false);
-                    showToast('Copied previous day’s meals to today!');
+                    showToast(`Copied the previous day’s meals to ${dayName}!`);
                   }}
                   className="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-200 hover:text-slate-50 flex items-center gap-2"
                 >
@@ -237,12 +240,12 @@ export const DailyNutritionView: React.FC<Props> = ({
                   onClick={() => {
                     onClearDiary();
                     setShowDiaryMenu(false);
-                    showToast('Cleared today’s food diary entries.');
+                    showToast(`Cleared ${dayName}’s food diary entries.`);
                   }}
                   className="w-full text-left px-3 py-2 rounded-lg hover:bg-rose-500/20 text-rose-700 flex items-center gap-2"
                 >
                   <Trash2 className="w-3.5 h-3.5 text-rose-700" />
-                  Clear Today’s Diary
+                  {dayOffset === 0 ? 'Clear Today’s Diary' : `Clear ${currentDay.label}’s Diary`}
                 </button>
               </div>
             )}
@@ -253,21 +256,22 @@ export const DailyNutritionView: React.FC<Props> = ({
       {/* Calendar picker popup */}
       {showCalendarPicker && (
         <div className="p-4 rounded-2xl bg-slate-900 border border-slate-700/60 shadow-xl grid grid-cols-2 sm:grid-cols-5 gap-2 animate-in fade-in duration-150">
-          {daysList.map((d, idx) => (
+          {daysList.map(d => (
             <button
-              key={d.label}
+              key={d.offset}
               onClick={() => {
-                onDateIndexChange(idx);
+                onDayOffsetChange(d.offset);
                 setShowCalendarPicker(false);
               }}
+              aria-pressed={dayOffset === d.offset}
               className={`p-3 rounded-xl text-left border transition-all ${
-                currentDateIndex === idx
+                dayOffset === d.offset
                   ? 'bg-emerald-500/20 border-emerald-500/50 text-slate-50'
                   : 'bg-slate-800/50 border-slate-800 hover:bg-slate-800 text-slate-300'
               }`}
             >
               <span className="text-xs font-bold block">{d.label}</span>
-              <span className="text-xs text-slate-400">{d.dateString}</span>
+              <span className="text-xs text-slate-400">{d.shortDate}</span>
             </button>
           ))}
         </div>
@@ -613,7 +617,7 @@ export const DailyNutritionView: React.FC<Props> = ({
               <span className="text-xs font-normal text-slate-400">“Track My Day”</span>
             </h2>
             <p className="text-xs text-slate-400">
-              Logged today: {diaryEntries.reduce((acc, curr) => acc + curr.calories, 0)} kcal across {diaryEntries.length} items
+              Logged {dayName}: {diaryEntries.reduce((acc, curr) => acc + curr.calories, 0)} kcal across {diaryEntries.length} items
             </p>
           </div>
         </div>
